@@ -2,3 +2,5 @@
 
 /env/
 /.vscode/
+
+secret_keys.txt
