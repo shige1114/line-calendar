@@ -45,6 +45,12 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=event.message.text))
 
+@handler.add(MessageEvent, message="!event")
+def start_event(event):
+    line_bot_api.reply_message(
+        event.replytoken,
+        TextMessage(text="何月ですか。")
+    )
 
 if __name__ == "__main__":
     app.run() 
