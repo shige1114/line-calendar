@@ -19,7 +19,7 @@ class BotController:
 
     def _bot_controller(self, event=""):
         message = event.message.text
-        if "!event" == message and not self.session["start_event"]:
+        if "!event" == message:
             self._start_event(event)
         elif self._check_month():
             self._select_month(event)
