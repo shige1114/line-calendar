@@ -4,15 +4,13 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-from requests import session
-from sqlalchemy import true
-from ..view.View import View
+
 import typing as tp
 
 
 class BotController:
     def __init__(self,line_bot_api) -> None:
-        self.view = View()
+        
         try:
             self.line_bot_api = line_bot_api
             #self.session = args["session"]
