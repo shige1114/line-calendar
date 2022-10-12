@@ -47,7 +47,7 @@ def callback():
 """
 help message
 """
-@handler.add(MessageEvent, message=TextMessage())
+@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     bot_controller._bot_controller(event=event)
 
