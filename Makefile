@@ -1,5 +1,5 @@
 APP="line-chat-bot-1114"
-OPTIONS_APP="--app line-chat-bot-1114"
+OPTIONS_APP=--app line-chat-bot-1114
 
 stop:
 	heroku ps:scale web=0 --app $(APP)
