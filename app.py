@@ -1,5 +1,5 @@
 
-from flask import Flask, request, abort
+from flask import Flask, request, abort, session
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -11,6 +11,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import os
+from src.MVC.controller.BotController import BotController
+from datetime import timedelta
 
 app = Flask(__name__)
 
@@ -21,9 +23,13 @@ MY_CHANNEL_SECRET = os.environ["MY_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(MY_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(MY_CHANNEL_SECRET)
 
+bot_controller = BotController(line_bot_api=line_bot_api,session=session)
+app.secret_key = 'user'
+app.permanent_session_lifetime = timedelta(minutes=3) 
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
+    
     signature = request.headers['X-Line-Signature']
 
     # get request body as text
@@ -43,9 +49,8 @@ help message
 """
 @handler.add(MessageEvent, message=TextMessage())
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
+    bot_controller._bot_controller(event=event)
+
     
 
     
