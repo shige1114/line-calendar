@@ -11,10 +11,10 @@ import typing as tp
 
 
 class BotController:
-    def __init__(self, **args) -> None:
+    def __init__(self,line_bot_api) -> None:
         self.view = View()
         try:
-            self.line_bot_api = args["line_bot_api"]
+            self.line_bot_api = line_bot_api
             #self.session = args["session"]
         except:
             print("!error message i couldnt read line_bot_api!")
