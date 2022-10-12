@@ -25,25 +25,24 @@ handler = WebhookHandler(MY_CHANNEL_SECRET)
 #app.secret_key = 'user'
 #app.permanent_session_lifetime = timedelta(minutes=3)
 
-bot_controller = BotController(line_bot_api=line_bot_api)
+bot_controller = BotController()
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    # get X-Line-Signature header value
-    
     signature = request.headers['X-Line-Signature']
-
+		
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-
+    
     # handle webhook body
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
+        print("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
-
     return 'OK'
+
 
 """
 help message
