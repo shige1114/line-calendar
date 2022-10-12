@@ -11,8 +11,9 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import os
-from src.MVC.controller.BotController import BotController
-from datetime import timedelta
+
+#from src.MVC.controller.BotController import BotController
+#from datetime import timedelta
 
 app = Flask(__name__)
 
@@ -25,7 +26,7 @@ handler = WebhookHandler(MY_CHANNEL_SECRET)
 #app.secret_key = 'user'
 #app.permanent_session_lifetime = timedelta(minutes=3)
 
-bot_controller = BotController()
+#bot_controller = BotController()
 
 @app.route("/callback", methods=['POST'])
 def callback():
