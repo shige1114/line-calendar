@@ -12,7 +12,7 @@ from linebot.models import (
 )
 import os
 
-#from src.MVC.controller.BotController import BotController
+from src.MVC.controller.BotController import BotController
 #from datetime import timedelta
 
 app = Flask(__name__)
@@ -26,7 +26,7 @@ handler = WebhookHandler(MY_CHANNEL_SECRET)
 #app.secret_key = 'user'
 #app.permanent_session_lifetime = timedelta(minutes=3)
 
-#bot_controller = BotController()
+#
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -50,7 +50,8 @@ help message
 """
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    #bot_controller._bot_controller(event=event)
+    bot_controller = BotController(line_bot_api=line_bot_api)
+    bot_controller._bot_controller(event=event)
     line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=event.message.text))
