@@ -22,10 +22,11 @@ MY_CHANNEL_SECRET = os.environ["MY_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(MY_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(MY_CHANNEL_SECRET)
+app.secret_key = 'user'
+app.permanent_session_lifetime = timedelta(minutes=3)
 
 bot_controller = BotController(line_bot_api=line_bot_api,session=session)
-app.secret_key = 'user'
-app.permanent_session_lifetime = timedelta(minutes=3) 
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value

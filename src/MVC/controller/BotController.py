@@ -15,7 +15,7 @@ class BotController:
         self.view = View()
         try:
             self.line_bot_api = args["line_bot_api"]
-            self.session = args["session"]
+            #self.session = args["session"]
         except:
             print("!error message i couldnt read line_bot_api!")
 
@@ -30,8 +30,8 @@ class BotController:
         pass
 
     def _start_event(self, event):
-        self.session.permanent = True
-        self.session["start_event"] = True
+        #self.session.permanent = True
+        #self.session["start_event"] = True
         self.line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="イベント開催月を決定してください。")
@@ -41,12 +41,12 @@ class BotController:
 
 
     def _select_month(self, event):
-        if self.session["start_event"]:
-            self.session["month"] = self._check_month(event.message.text)
-            self.line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="イベントの名前を入力してください。")
-            )
+        #if self.session["start_event"]:
+            #self.session["month"] = self._check_month(event.message.text)
+            #self.line_bot_api.reply_message(
+            #    event.reply_token,
+            #    TextSendMessage(text="イベントの名前を入力してください。")
+            #)
 
         pass
 

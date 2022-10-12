@@ -12,6 +12,9 @@ start:
 open:
 	heroku domains $(OPTIONS_APP)
 
+logs:
+	heroku logs $(OPTIONS_APP) --tail 
+
 deb:
 	export MY_CHANNEL_ACCESS_TOKEN=""
 	export MY_CHANNEL_SECRET=""
