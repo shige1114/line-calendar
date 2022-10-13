@@ -6,6 +6,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 from src.MVC.view.View import View
+from flask_session import Session
 import typing as tp
 from flask import session
 if tp.TYPE_CHECKING:
