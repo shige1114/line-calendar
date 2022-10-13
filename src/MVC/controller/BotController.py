@@ -40,7 +40,7 @@ class BotController:
 
     def _select_month(self, event):
         if "start_event" in self.session:
-            self.session["month"] = self._check_month(event.message.text)
+            self.session["month"] = self._check_month(event)
             self._send_message(
                 event,
                 message=self.view._decide_priod_massage()
@@ -76,7 +76,10 @@ class BotController:
             TextSendMessage(text=message)
         )
         pass
-
+    
+    """
+    イベント型を入れてください。
+    """
     def _check_month(self, event=""):
         message = event.message.text
         month = None
