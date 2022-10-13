@@ -39,7 +39,7 @@ class BotController:
         pass
 
     def _select_month(self, event):
-        if "start_event" in self.session:
+        if self.session["start_event"]:
             self.session["month"] = self._check_month(event)
             self._send_message(
                 event,
