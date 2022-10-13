@@ -23,7 +23,7 @@ class BotController:
         message = event.message.text
         if "!event" == message:
             self._start_event(event)
-        elif self._check_month():
+        elif self._check_month(event):
             self._select_month(event)
         elif "" == message:
             pass
@@ -39,7 +39,7 @@ class BotController:
         pass
 
     def _select_month(self, event):
-        if self.session["start_event"]:
+        if "start_event" in self.session:
             self.session["month"] = self._check_month(event.message.text)
             self._send_message(
                 event,
