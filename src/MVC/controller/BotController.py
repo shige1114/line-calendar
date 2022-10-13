@@ -1,4 +1,5 @@
 
+from email import message
 from linebot.exceptions import (
     InvalidSignatureError
 )
@@ -14,7 +15,7 @@ if tp.TYPE_CHECKING:
 
 
 class BotController:
-    def __init__(self, line_bot_api, session:"session") -> None:
+    def __init__(self, line_bot_api, session: "session") -> None:
 
         try:
             self.line_bot_api = line_bot_api
@@ -27,12 +28,22 @@ class BotController:
         message = event.message.text
         if "!event" == message:
             self._start_event(event)
-            return "true"
+            return ["login", True]
+        elif not self.session.get("login"):
+            return [None,None]
         elif self._check_month(event):
             self._select_month(event)
-            return self._select_month(event)
-        elif "" == message:
+            return ["month", self._select_month(event)]
+        elif self._check_priod_message(event):
+            self._decide_event_name(self, event)
+            return ["priod", self._check_month(event)]
             pass
+        elif self.session.get('login'):
+            self._decide_event_name(event)
+            return ["name", event.message.text]
+        
+        return [None, None]
+
         pass
 
     def _start_event(self, event):
@@ -42,17 +53,16 @@ class BotController:
         )
         self._send_message(
             event,
-            message=self.session["start_event"]
+            message=self.view._error_message()
         )
 
         pass
 
     def _select_month(self, event):
-        if self.session.get("login")=="True":
-            self.session["month"] = self._check_month(event)
+        if self.session.get("login") == "True":
             self._send_message(
                 event,
-                message=self.session.get("month")
+                message=self.view._decide_priod_massage()
             )
 
         else:
@@ -64,6 +74,7 @@ class BotController:
         pass
 
     def _decide_event_name(self, event):
+        self._send_message(event, self.view._sent_url_massage())
 
         pass
 
@@ -76,7 +87,11 @@ class BotController:
     def _announcement_result(self, message=""):
         pass
 
-    def _error_message(self, message=""):
+    def _error_message(self, event):
+        self._send_message(
+            event,
+            message=self.view._error_message()
+        )
         pass
 
     def _send_message(self, event="", message=""):
@@ -89,6 +104,7 @@ class BotController:
     """
     イベント型を入れてください。
     """
+
     def _check_month(self, event=""):
         message = event.message.text
         month = None
@@ -98,3 +114,13 @@ class BotController:
         else:
             return month
         pass
+
+    def _check_priod_message(self, event=""):
+        message = event.message.text
+        priod = None
+        if '日' in message:
+            priod = message.split("日")
+            return int(priod[0])
+        else:
+            return priod
+    

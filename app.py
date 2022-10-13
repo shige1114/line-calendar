@@ -50,10 +50,13 @@ help message
 """
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    session["login"]="True"
+    
     bot_controller = BotController(line_bot_api=line_bot_api,session=session)
-    bot_controller._bot_controller(event=event)
+    id,value = bot_controller._bot_controller(event=event)
+    if value:
+        session[id]=value
+        
     
-    
+
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
