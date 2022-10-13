@@ -23,7 +23,7 @@ MY_CHANNEL_SECRET = os.environ["MY_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(MY_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(MY_CHANNEL_SECRET)
-app.secret_key = 'useruseruseruser'
+app.secret_key = 'userus'
 app.permanent_session_lifetime = timedelta(minutes=3)
 
 #
