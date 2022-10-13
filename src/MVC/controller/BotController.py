@@ -52,7 +52,7 @@ class BotController:
             self.session["month"] = self._check_month(event)
             self._send_message(
                 event,
-                message=self.view._decide_priod_massage()
+                message=self.session.get("month")
             )
 
         else:
