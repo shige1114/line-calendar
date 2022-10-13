@@ -59,7 +59,7 @@ class BotController:
             )
 
         else:
-            self._error_message()
+            self._error_message(event)
 
         pass
 
@@ -67,7 +67,7 @@ class BotController:
         if self.session.get("login"):
             self._send_message(event, self.view._sent_url_massage())
         else:
-            self._error_message()
+            self._error_message(event)
 
         pass
 
@@ -80,7 +80,7 @@ class BotController:
     def _announcement_result(self, message=""):
         pass
 
-    def _error_message(self, event):
+    def _error_message(self, event=""):
         self._send_message(
             event,
             message=self.view._error_message()
