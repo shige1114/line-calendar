@@ -77,7 +77,8 @@ class BotController:
         )
         pass
 
-    def _check_month(self, message=""):
+    def _check_month(self, event=""):
+        message = event.message.text
         month = None
         if '月' in message:
             month = message.split("月")
