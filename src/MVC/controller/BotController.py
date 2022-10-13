@@ -29,8 +29,6 @@ class BotController:
         if "!event" == message:
             self._start_event(event)
             return ["login", True]
-        elif not self.session.get("login"):
-            return [None,None]
         elif self._check_month(event):
             self._select_month(event)
             return ["month", self._select_month(event)]
@@ -51,11 +49,6 @@ class BotController:
             event,
             message=self.view._select_month_masssage()
         )
-        self._send_message(
-            event,
-            message=self.view._error_message()
-        )
-
         pass
 
     def _select_month(self, event):
@@ -66,15 +59,15 @@ class BotController:
             )
 
         else:
-            self._send_message(
-                event,
-                message=self.view._error_message()
-            )
+            self._error_message()
 
         pass
 
     def _decide_event_name(self, event):
-        self._send_message(event, self.view._sent_url_massage())
+        if self.session.get("login"):
+            self._send_message(event, self.view._sent_url_massage())
+        else:
+            self._error_message()
 
         pass
 
@@ -123,4 +116,3 @@ class BotController:
             return int(priod[0])
         else:
             return priod
-    
