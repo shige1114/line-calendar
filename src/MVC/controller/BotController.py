@@ -1,19 +1,21 @@
+from email import message
 from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-
+from src.MVC.view.View import View
 import typing as tp
 
 
 class BotController:
-    def __init__(self,line_bot_api) -> None:
-        
+    def __init__(self, line_bot_api, session) -> None:
+
         try:
             self.line_bot_api = line_bot_api
-            #self.session = args["session"]
+            self.session = session
+            self.view = View()
         except:
             print("!error message i couldnt read line_bot_api!")
 
@@ -28,29 +30,34 @@ class BotController:
         pass
 
     def _start_event(self, event):
-        #self.session.permanent = True
-        #self.session["start_event"] = True
-        self.line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="イベント開催月を決定してください。")
+        self.session.permanent = True
+        self.session["start_event"] = True
+        self._send_message(
+            event,
+            message=self.view._select_month_masssage()
         )
         pass
 
-
-
     def _select_month(self, event):
-        #if self.session["start_event"]:
-            #self.session["month"] = self._check_month(event.message.text)
-            #self.line_bot_api.reply_message(
-            #    event.reply_token,
-            #    TextSendMessage(text="イベントの名前を入力してください。")
-            #)
+        if self.session["start_event"]:
+            self.session["month"] = self._check_month(event.message.text)
+            self._send_message(
+                event,
+                message=self.view._decide_priod_massage()
+            )
+
+        else:
+            self._send_message(
+                event,
+                message=""
+            )
 
         pass
 
-    def _decide_event_name(self,event):
+    def _decide_event_name(self, event):
 
         pass
+
     def _decide_priod(self, message=""):
         pass
 
@@ -61,6 +68,13 @@ class BotController:
         pass
 
     def _error_message(self, message=""):
+        pass
+
+    def _send_message(self, event="", message=""):
+        self.line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message)
+        )
         pass
 
     def _check_month(self, message=""):
