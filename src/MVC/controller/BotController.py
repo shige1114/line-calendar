@@ -12,6 +12,7 @@ from flask import session
 if tp.TYPE_CHECKING:
     from flask import session
 
+
 class BotController:
     def __init__(self, line_bot_api, session:"session") -> None:
 
@@ -26,15 +27,15 @@ class BotController:
         message = event.message.text
         if "!event" == message:
             self._start_event(event)
+            return "true"
         elif self._check_month(event):
             self._select_month(event)
+            return self._select_month(event)
         elif "" == message:
             pass
         pass
 
     def _start_event(self, event):
-        self.session.permanent = True
-        self.session["start_event"] = "fff"
         self._send_message(
             event,
             message=self.view._select_month_masssage()
@@ -47,7 +48,7 @@ class BotController:
         pass
 
     def _select_month(self, event):
-        if self.session.get("start_event")=="fff":
+        if self.session.get("login")=="True":
             self.session["month"] = self._check_month(event)
             self._send_message(
                 event,
@@ -57,7 +58,7 @@ class BotController:
         else:
             self._send_message(
                 event,
-                message=self.session.get("login")
+                message=self.view._error_message()
             )
 
         pass
