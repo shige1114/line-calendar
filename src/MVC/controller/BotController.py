@@ -76,7 +76,7 @@ class BotController:
             TextSendMessage(text=message)
         )
         pass
-    
+
     """
     イベント型を入れてください。
     """
@@ -85,7 +85,7 @@ class BotController:
         month = None
         if '月' in message:
             month = message.split("月")
-            return int(month)
+            return int(month[0])
         else:
             return month
         pass
