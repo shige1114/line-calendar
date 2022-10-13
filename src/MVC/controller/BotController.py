@@ -33,7 +33,7 @@ class BotController:
 
     def _start_event(self, event):
         self.session.permanent = True
-        self.session.push("start_event",True)
+        self.session["start_event"] = True
         self._send_message(
             event,
             message=self.view._select_month_masssage()
