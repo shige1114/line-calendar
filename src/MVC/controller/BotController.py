@@ -1,4 +1,4 @@
-from email import message
+
 from linebot.exceptions import (
     InvalidSignatureError
 )
@@ -7,10 +7,12 @@ from linebot.models import (
 )
 from src.MVC.view.View import View
 import typing as tp
-
+from flask import session
+if tp.TYPE_CHECKING:
+    from flask import session
 
 class BotController:
-    def __init__(self, line_bot_api, session) -> None:
+    def __init__(self, line_bot_api, session:"session") -> None:
 
         try:
             self.line_bot_api = line_bot_api
@@ -31,7 +33,7 @@ class BotController:
 
     def _start_event(self, event):
         self.session.permanent = True
-        self.session["start_event"] = True
+        self.session.push("start_event",True)
         self._send_message(
             event,
             message=self.view._select_month_masssage()
@@ -39,7 +41,7 @@ class BotController:
         pass
 
     def _select_month(self, event):
-        if self.session["start_event"]:
+        if self.session.get("start_event"):
             self.session["month"] = self._check_month(event)
             self._send_message(
                 event,
