@@ -49,7 +49,7 @@ class BotController:
         else:
             self._send_message(
                 event,
-                message=""
+                message=self.view._error_message()
             )
 
         pass

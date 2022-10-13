@@ -25,7 +25,9 @@ class View:
         return "結果はっぴょー！！"
         pass
 
-
+    def _error_message(self, message=""):
+        return "error"
+        pass
     def _default_card():
 
         pass
