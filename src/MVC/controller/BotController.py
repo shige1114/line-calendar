@@ -28,18 +28,26 @@ class BotController:
         message = event.message.text
         if "!event" == message:
             self._start_event(event)
-            return ["login", True]
+            return ["login", "True"]
+
+            pass
+
         elif self._check_month(event):
             self._select_month(event)
             return ["month", self._select_month(event)]
+
+            pass
+
         elif self._check_priod_message(event):
             self._decide_event_name(self, event)
             return ["priod", self._check_month(event)]
+
             pass
         elif self.session.get('login'):
             self._decide_event_name(event)
             return ["name", event.message.text]
-        
+
+            pass
         return [None, None]
 
         pass
@@ -58,16 +66,14 @@ class BotController:
                 message=self.view._decide_priod_massage()
             )
 
-        else:
-            self._error_message(event)
+
 
         pass
 
     def _decide_event_name(self, event):
-        if self.session.get("login"):
+        if self.session.get("login") == "True":
             self._send_message(event, self.view._sent_url_massage())
-        else:
-            self._error_message(event)
+
 
         pass
 
@@ -88,10 +94,13 @@ class BotController:
         pass
 
     def _send_message(self, event="", message=""):
-        self.line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=message)
-        )
+        try:
+            self.line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=message)
+            )
+        except:
+            print("error")
         pass
 
     """
