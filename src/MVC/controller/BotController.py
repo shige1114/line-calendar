@@ -61,7 +61,7 @@ class BotController:
         pass
 
     def _select_month(self, event):
-        if self.models._get_calendar(self.room_id):
+        if self.models._get_calendar(id=self.room_id):
             self.models._update_calendar(
                 id=self.room_id, monht=self._check_month()
             )
