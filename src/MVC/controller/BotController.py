@@ -20,7 +20,7 @@ class BotController:
             self.models = MySqlDriver(line_bot_api)
             self.view = View()
             self.event = event
-            self.room_id = event.source.room_id
+            self.room_id = event.source.group_id
         except:
             print("!error message i couldnt read line_bot_api!")
 
