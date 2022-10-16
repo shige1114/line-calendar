@@ -20,7 +20,7 @@ class BotController:
             self.models = MySqlDriver(line_bot_api)
             self.view = View()
             self.event = event
-            self.room_id = event.source['room']
+            self.room_id = event.source.room_id
         except:
             print("!error message i couldnt read line_bot_api!")
 
@@ -53,7 +53,7 @@ class BotController:
         pass
 
     def _start_event(self,event):
-        self.models._create_calendar(calendar_id=self.event.source['room'])
+        self.models._create_calendar(calendar_id=self.room_id)
         self._send_message(
             self.event,
             message=self.view._select_month_masssage()
