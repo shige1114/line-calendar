@@ -52,7 +52,7 @@ class BotController:
 
         pass
 
-    def _start_event(self,):
+    def _start_event(self,event):
         self.models._create_calendar(calendar_id=self.event.source['room'])
         self._send_message(
             self.event,
