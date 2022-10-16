@@ -1,12 +1,9 @@
-from calendar import Calendar
-from src.MVC import controller
 from src.MVC.models import db
 from src.MVC.models.Model import EventCalendar, Event, User
-from src.MVC.controller.BotController import BotController
 
 
 class MySqlDriver:
-    def __init__(self,controller:BotController,) -> None:
+    def __init__(self,controller,) -> None:
         self.controller = controller
 
         pass
