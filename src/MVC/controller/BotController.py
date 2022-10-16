@@ -8,6 +8,7 @@ from linebot import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+from src.MVC.models.Model import EventCalendar
 from src.MVC.view.View import View
 from src.MVC.models.MySqlDriver import MySqlDriver
 
@@ -40,7 +41,7 @@ class BotController:
             pass
 
         elif self._check_priod_message(event):
-            self._decide_event_name(self, event)
+            self._decide_event_name(event)
             return ["priod", self._check_month(event)]
 
             pass
@@ -54,7 +55,8 @@ class BotController:
         pass
 
     def _start_event(self,event):
-        self.models._create_calendar(calendar_id=self.room_id)
+        if not EventCalendar.query.get(self.room_id):
+            self.models._create_calendar(calendar_id=self.room_id)
         self._send_message(
             self.event,
             message=self.view._select_month_masssage()
