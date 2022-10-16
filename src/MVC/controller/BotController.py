@@ -78,7 +78,7 @@ class BotController:
     def _decide_event_name(self, event):
         if self.models._get_calendar(id=self.room_id):
             self.models._update_calendar(
-                id=self.room_id, name=self.event.message.text)
+                id=self.room_id,event_name=self.event.message.text)
             self._send_message(
                 self.event,
                 self.view._sent_url_massage()

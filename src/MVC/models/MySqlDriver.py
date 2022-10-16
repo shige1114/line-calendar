@@ -41,9 +41,9 @@ class MySqlDriver:
             calendar_id = self.room_id
         calendar = EventCalendar.query.get(calendar_id)
 
-        if 'name' in args:
-            name = 'name'
-            value = args['name']
+        if 'event_name' in args:
+            name = 'event_name'
+            value = args['event_name']
         elif 'month' in args:
             name = 'month'
             value = args['month']
