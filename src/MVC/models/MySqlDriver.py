@@ -1,24 +1,31 @@
+from calendar import month
+from datetime import datetime, timedelta
 from src.MVC.models import db
 from src.MVC.models.Model import EventCalendar, Event, User
 
-
+calendar_init_value = {
+    'event_name': '',
+    'priod': datetime.today(),
+    'month': 0,
+}
 class MySqlDriver:
-    def __init__(self,controller,) -> None:
+    def __init__(self,controller="",room_id="") -> None:
         self.controller = controller
-
+        self.room_id = room_id
         pass
 
     def _create_calendar(self, **args):
         """
         args(calendar_id = room_id)
         """
-        try:
-            calendar_id = args["calendar_id"]
-            calendar = EventCalendar(id=calendar_id)
-            db.session.add(calendar)
-            db.session.commit()
-        except:
-            pass
+        
+        calendar_id = args["calendar_id"]
+        calendar = EventCalendar(id=calendar_id,**calendar_init_value)
+        
+        db.session.add(calendar)
+        db.session.commit()
+        db.session.close()
+        
 
         pass
 
@@ -28,28 +35,27 @@ class MySqlDriver:
         """
         name = ''
         value = None
-        try:
+        if 'id' in args:
             calendar_id = args['id']
-            calendar = EventCalendar.query.get(calendar_id)
+        else:
+            calendar_id = self.room_id
+        calendar = EventCalendar.query.get(calendar_id)
 
-        except:
-            pass
-        try:
-            if 'name' in args:
-                name = 'name'
-                value = args['name']
-            elif 'month' in args:
-                name = 'month'
-                value = args['month']
-            elif 'deadline' in args:
-                name = 'deadline'
-                value = args['deadline']
-        except:
-            pass
+        if 'name' in args:
+            name = 'name'
+            value = args['name']
+        elif 'month' in args:
+            name = 'month'
+            value = args['month']
+        elif 'priod' in args:
+            name = 'priod'
+            value = datetime.today() - timedelta(int(args['priod']))
+        
 
         if value:
             setattr(calendar,name,value)
             db.session.commit()
+            db.session.close()
 
     pass
 
@@ -57,13 +63,18 @@ class MySqlDriver:
         """
         args(id=line_room_id)
         """
-
-        try:
+        if 'id' in args:
             calendar_id = args['id']
-            calendar = EventCalendar.query.get(calendar_id)
-            return calendar
-        except:
-            return None
+        else:
+            calendar_id = self.room_id
+        
+        calendar_id = args['id']
+        calendar = EventCalendar.query.get(calendar_id)
+        db.session.close()
+        return calendar
+        
+        
+        
 
 
     

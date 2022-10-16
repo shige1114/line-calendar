@@ -1,24 +1,30 @@
-from datetime import datetime
+from datetime import date, datetime
+from email.policy import default
 
 from sqlalchemy import ForeignKey
 from src.MVC.models import db
+
+
+
 
 class EventCalendar(db.Model):
     """
     EventCalendar(id=line_room_id,**args)
     """
-    __tablename__ = 'EventCalendar'
+    __tablename__ = 'event_calendar'
 
     id = db.Column(db.String(255), primary_key=True,)
-    event_name = db.Column(db.String(255), nullable=True)
-    deadline = db.Column(db.DateTime, nullable=True)
-    month = db.Column(db.String(255), nullable=True)
+    event_name = db.Column(db.String(255), nullable=True, default="")
+    deadline = db.Column(db.String(255), nullable=True,
+                         default=datetime.today())
+    month = db.Column(db.Integer(), nullable=True, default=0)
     created_date = db.Column(
-        db.DateTime, nullable=False, default=datetime.utcnow)
+        db.DateTime, nullable=False, default=datetime.today())
     updated_date = db.Column(
-        db.DateTime, nullable=False, default=datetime.utcnow
+        db.DateTime, nullable=False, default=datetime.today()
     )
-    def __init__(self,id, event_name, priod, month):
+
+    def __init__(self, id, event_name, priod, month):
         self.id = id
         self.event_name = event_name
         self.priod = priod
@@ -33,24 +39,26 @@ class EventCalendar(db.Model):
             'priod': self.priod,
             'month': self.month,
             'created_date': self.created_date,
-            'updated_date' : self.updated_date,
+            'updated_date': self.updated_date,
         }
+
 
 class User(db.Model):
     """
     User(id=line_id)
     """
-    __tablename__ = 'User'
+    __tablename__ = 'user'
 
     id = db.Column(db.String(255), primary_key=True,)
     name = db.Column(db.String(255), nullable=False)
-    event_calendar_id = db.Column(db.String(255), nullable=False)
+    event_calendar_id = db.Column(db.String(255), ForeignKey(
+        "event_calendar.id"), nullable=False)
     voted_event = db.Column(db.String(255), nullable=False)
-    voted_number = db.Column(db.Integer,default=0, nullable=False)
+    voted_number = db.Column(db.Integer(), default=0, nullable=False)
     created_date = db.Column(
-        db.DateTime, nullable=False, default=datetime.utcnow)
+        db.DateTime, nullable=False, default=datetime.today())
 
-    def __init__(self,id, name, event_calendar_id, voted_event):
+    def __init__(self, id, name, event_calendar_id, voted_event):
         self.id = id
         self.name = name
         self.event_calendar_id = event_calendar_id
@@ -71,24 +79,25 @@ class User(db.Model):
 class Event(db.Model):
     """Event
     """
-    __tablename__ = 'Event'
+    __tablename__ = 'event'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     date = db.Column(db.String(255), nullable=False)
-    calendar_id = db.Column(db.String(255),ForeignKey("EventCalendar.id"),nullable=False)
+    calendar_id = db.Column(db.String(255), ForeignKey(
+        "event_calendar.id"), nullable=False)
     name = db.Column(db.String(255), nullable=False)
-    start_time = db.Column(db.Time, nullable=False,)
-    end_time = db.Column(db.Time, nullable=False,)
+    start_time = db.Column(db.String(255), nullable=False,)
+    end_time = db.Column(db.String(255), nullable=False,)
     created_date = db.Column(
-        db.DateTime, nullable=False, default=datetime.utcnow)
+        db.DateTime, nullable=False, default=datetime.today())
 
-    def __init__(self, date, name, detail,start_time,end_time,calendar_id):
+    def __init__(self, date, name, detail, start_time, end_time, calendar_id):
         self.date = date
         self.name = name
         self.detail = detail
-        self.start_time=start_time
-        self.end_time=end_time
-        self.calendar_id=calendar_id
+        self.start_time = start_time
+        self.end_time = end_time
+        self.calendar_id = calendar_id
 
     def to_dict(self):
         """to_dict
@@ -96,10 +105,10 @@ class Event(db.Model):
         return {
             'id': self.id,
             'date': self.date,
-            'calendar_id':self.calendar_id,
+            'calendar_id': self.calendar_id,
             'name': self.name,
             'detail': self.detail,
-            'start_time' : self.start_time,
+            'start_time': self.start_time,
             'end_time': self.end_time,
             'created_date': self.created_date
         }

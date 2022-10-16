@@ -17,6 +17,9 @@ class View:
         return "投票期間を決めてください！"
         pass
 
+    def _decide_event_name(self,):
+        return "名前を決めてください！"
+
     def _sent_url_massage(self, message=""):
         return "イベント候補を登録してください！"
         pass

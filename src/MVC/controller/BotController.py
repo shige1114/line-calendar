@@ -1,6 +1,6 @@
 
 from linebot.exceptions import (
-    InvalidSignatureError
+    InvalidSignatureError,
 )
 from linebot import (
     LineBotApi,
@@ -17,10 +17,11 @@ class BotController:
 
         try:
             self.line_bot_api = line_bot_api
-            self.models = MySqlDriver(line_bot_api)
-            self.view = View()
             self.event = event
             self.room_id = event.source.group_id
+
+            self.models = MySqlDriver(line_bot_api,self.room_id)
+            self.view = View()
         except:
             print("!error message i couldnt read line_bot_api!")
 
@@ -63,7 +64,7 @@ class BotController:
     def _select_month(self, event):
         if self.models._get_calendar(id=self.room_id):
             self.models._update_calendar(
-                id=self.room_id, monht=self._check_month()
+                id=self.room_id, month=self._check_month()
             )
             self._send_message(
                 self.event,
@@ -84,6 +85,14 @@ class BotController:
         pass
 
     def _decide_priod(self, message=""):
+        if self.models._get_calendar(self.room_id):
+            self.models._update_calendar(
+                id=self.room_id, priod=self._check_priod_message()
+            )
+            self._send_message(
+                self.event,
+                self.view._decide_event_name()
+            )
         pass
 
     def _sent_url(self, message=""):
@@ -105,7 +114,7 @@ class BotController:
                 self.event.reply_token,
                 TextSendMessage(text=message)
             )
-        except:
+        except :
             print("error")
         pass
 
