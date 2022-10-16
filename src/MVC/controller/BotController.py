@@ -1,34 +1,34 @@
 
-from email import message
 from linebot.exceptions import (
     InvalidSignatureError
+)
+from linebot import (
+    LineBotApi,
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 from src.MVC.view.View import View
-from flask_session import Session
-import typing as tp
-from flask import session
-if tp.TYPE_CHECKING:
-    from flask import session
+from src.MVC.models.MySqlDriver import MySqlDriver
 
 
 class BotController:
-    def __init__(self, line_bot_api, session: "session") -> None:
+    def __init__(self, line_bot_api: LineBotApi, event: MessageEvent) -> None:
 
         try:
             self.line_bot_api = line_bot_api
-            self.session = session
+            self.models = MySqlDriver(line_bot_api)
             self.view = View()
+            self.event = event
+            self.room_id = event.source['room']
         except:
             print("!error message i couldnt read line_bot_api!")
 
-    def _bot_controller(self, event=""):
+    def _bot_controller(self, event: MessageEvent):
+
         message = event.message.text
         if "!event" == message:
             self._start_event(event)
-            return ["login", "True"]
 
             pass
 
@@ -43,7 +43,7 @@ class BotController:
             return ["priod", self._check_month(event)]
 
             pass
-        elif self.session.get('login'):
+        elif self.models:
             self._decide_event_name(event)
             return ["name", event.message.text]
 
@@ -52,28 +52,34 @@ class BotController:
 
         pass
 
-    def _start_event(self, event):
+    def _start_event(self,):
+        self.models._create_calendar(calendar_id=self.event.source['room'])
         self._send_message(
-            event,
+            self.event,
             message=self.view._select_month_masssage()
         )
         pass
 
     def _select_month(self, event):
-        if self.session.get("login") == "True":
+        if self.models._get_calendar(self.room_id):
+            self.models._update_calendar(
+                id=self.room_id, monht=self._check_month()
+            )
             self._send_message(
-                event,
+                self.event,
                 message=self.view._decide_priod_massage()
             )
-
-
 
         pass
 
     def _decide_event_name(self, event):
-        if self.session.get("login") == "True":
-            self._send_message(event, self.view._sent_url_massage())
-
+        if self.models._get_calendar(self.room_id):
+            self.models._update_calendar(
+                id=self.room_id, name=self.event.message.text)
+            self._send_message(
+                self.event,
+                self.view._sent_url_massage()
+            )
 
         pass
 
@@ -88,7 +94,7 @@ class BotController:
 
     def _error_message(self, event=""):
         self._send_message(
-            event,
+            self.event,
             message=self.view._error_message()
         )
         pass
@@ -96,19 +102,15 @@ class BotController:
     def _send_message(self, event="", message=""):
         try:
             self.line_bot_api.reply_message(
-                event.reply_token,
+                self.event.reply_token,
                 TextSendMessage(text=message)
             )
         except:
             print("error")
         pass
 
-    """
-    イベント型を入れてください。
-    """
-
     def _check_month(self, event=""):
-        message = event.message.text
+        message = self.event.message.text
         month = None
         if '月' in message:
             month = message.split("月")
@@ -118,7 +120,7 @@ class BotController:
         pass
 
     def _check_priod_message(self, event=""):
-        message = event.message.text
+        message = self.event.message.text
         priod = None
         if '日' in message:
             priod = message.split("日")
