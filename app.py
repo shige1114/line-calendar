@@ -16,7 +16,7 @@ import os
 from src.MVC.controller.BotController import BotController
 from datetime import timedelta
 
-app = Flask(__name__,instance_relative_config=True)
+app = Flask(__name__,instance_relative_config=False)
 app.config.from_pyfile('config.py')
 db.init_app(app)
 Migrate(app,db)
