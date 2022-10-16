@@ -76,7 +76,7 @@ class BotController:
         pass
 
     def _decide_event_name(self, event):
-        if self.models._get_calendar(self.room_id):
+        if self.models._get_calendar(id=self.room_id):
             self.models._update_calendar(
                 id=self.room_id, name=self.event.message.text)
             self._send_message(
@@ -87,7 +87,7 @@ class BotController:
         pass
 
     def _decide_priod(self, message=""):
-        if self.models._get_calendar(self.room_id):
+        if self.models._get_calendar(id=self.room_id):
             self.models._update_calendar(
                 id=self.room_id, priod=self._check_priod_message()
             )
