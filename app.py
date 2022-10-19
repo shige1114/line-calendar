@@ -60,7 +60,7 @@ help message
 def handle_message(event):
     
     bot_controller = BotController(line_bot_api=line_bot_api,event=event)
-    id,value = bot_controller._bot_controller(event=event)
+    bot_controller._bot_controller(event=event)
     
         
     
