@@ -33,9 +33,9 @@ class BotController:
             pass
         elif self.models._check_event_start(id=self.room_id):
             self._select_month(event)
+            self._decide_priod(event)
             self._decide_event_name(event)
-            self._decide_event_name(event)
-            
+
             pass
 
         pass
