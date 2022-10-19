@@ -5,8 +5,6 @@ from sqlalchemy import ForeignKey
 from src.MVC.models import db
 
 
-
-
 class EventCalendar(db.Model):
     """
     EventCalendar(id=line_room_id,**args)
@@ -58,7 +56,7 @@ class User(db.Model):
     created_date = db.Column(
         db.DateTime, nullable=False, default=datetime.today())
 
-    def __init__(self, id, name, event_calendar_id, voted_event):
+    def __init__(self, id, name, event_calendar_id, voted_event=''):
         self.id = id
         self.name = name
         self.event_calendar_id = event_calendar_id
@@ -86,18 +84,19 @@ class Event(db.Model):
     calendar_id = db.Column(db.String(255), ForeignKey(
         "event_calendar.id"), nullable=False)
     name = db.Column(db.String(255), nullable=False)
+    vote_num = db.Column(db.Integer, nullable=False,)
     start_time = db.Column(db.String(255), nullable=False,)
     end_time = db.Column(db.String(255), nullable=False,)
     created_date = db.Column(
         db.DateTime, nullable=False, default=datetime.today())
 
-    def __init__(self, date, name, detail, start_time, end_time, calendar_id):
+    def __init__(self, date, name,  start_time, end_time, calendar_id, vote_num=0):
         self.date = date
         self.name = name
-        self.detail = detail
         self.start_time = start_time
         self.end_time = end_time
         self.calendar_id = calendar_id
+        self.vote_num = vote_num
 
     def to_dict(self):
         """to_dict
@@ -107,7 +106,7 @@ class Event(db.Model):
             'date': self.date,
             'calendar_id': self.calendar_id,
             'name': self.name,
-            'detail': self.detail,
+            'vote_num': self.vote_num,
             'start_time': self.start_time,
             'end_time': self.end_time,
             'created_date': self.created_date
