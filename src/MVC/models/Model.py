@@ -22,10 +22,10 @@ class EventCalendar(db.Model):
         db.DateTime, nullable=False, default=datetime.today()
     )
 
-    def __init__(self, id, event_name, priod, month):
+    def __init__(self, id, event_name, deadline, month):
         self.id = id
         self.event_name = event_name
-        self.priod = priod
+        self.deadline = deadline
         self.month = month
 
     def to_dict(self):
@@ -34,7 +34,7 @@ class EventCalendar(db.Model):
         return {
             'id': self.id,
             'event_name': self.event_name,
-            'priod': self.priod,
+            'deadline': self.deadline,
             'month': self.month,
             'created_date': self.created_date,
             'updated_date': self.updated_date,

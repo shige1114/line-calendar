@@ -33,7 +33,7 @@ class BotController:
             pass
         elif self.models._check_event_start(id=self.room_id):
             self._select_month(event)
-            self._decide_priod(event)
+            self._decide_deadline(event)
             self._decide_event_name(event)
 
             pass
@@ -56,7 +56,7 @@ class BotController:
             )
             self._send_message(
                 self.event,
-                message=self.view._decide_priod_massage()
+                message=self.view._decide_deadline_massage()
             )
 
         pass
@@ -73,10 +73,10 @@ class BotController:
 
         pass
 
-    def _decide_priod(self, message=""):
-        if self._check_priod_message(self.event):
+    def _decide_deadline(self, message=""):
+        if self._check_deadline_message(self.event):
             self.models._update_calendar(
-                id=self.room_id, priod=self._check_priod_message()
+                id=self.room_id, deadline=self._check_deadline_message()
             )
             self._send_message(
                 self.event,
@@ -120,11 +120,11 @@ class BotController:
             return month
         pass
 
-    def _check_priod_message(self, event=""):
+    def _check_deadline_message(self, event=""):
         message = self.event.message.text
-        priod = None
+        deadline = None
         if '日' in message:
-            priod = message.split("日")
-            return int(priod[0])
+            deadline = message.split("日")
+            return int(deadline[0])
         else:
-            return priod
+            return deadline

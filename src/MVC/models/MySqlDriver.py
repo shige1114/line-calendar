@@ -6,7 +6,7 @@ from src.MVC.models.Model import EventCalendar, Event, User
 
 calendar_init_value = {
     'event_name': '',
-    'priod': datetime(year=2000,month=1,day=1,hour=0,minute=0,second=0),
+    'deadline': datetime(year=2000,month=1,day=1,hour=0,minute=0,second=0),
     'month': 0,
 }
 class MySqlDriver:
@@ -34,7 +34,7 @@ class MySqlDriver:
 
     def _update_calendar(self, **args):
         """
-        args = (id=line_room_id 必須　priod,name,month,)
+        args = (id=line_room_id 必須　deadline,name,month,)
         """
         name = ''
         value = None
@@ -46,10 +46,10 @@ class MySqlDriver:
         if 'month' in args:
             name = 'month'
             value = args['month']
-        elif 'priod' in args and  calendar.month != calendar_init_value['month']:
-            name = 'priod'
-            value = datetime.today() - timedelta(int(args['priod']))
-        elif 'event_name' in args and calendar.priod != calendar_init_value['priod']:
+        elif 'deadline' in args and  calendar.month != calendar_init_value['month']:
+            name = 'deadline'
+            value = datetime.today()+timedelta(int(args['deadline']))
+        elif 'event_name' in args and calendar.deadline != calendar_init_value['deadline']:
             name = 'event_name'
             value = args['event_name']
         
