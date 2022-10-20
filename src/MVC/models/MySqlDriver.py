@@ -1,6 +1,7 @@
 from asyncio import events
 from calendar import month
 from datetime import datetime, timedelta
+import string
 from unicodedata import name
 from src.MVC.models import db
 from src.MVC.models.Model import EventCalendar, Event, User
@@ -104,15 +105,15 @@ class MySqlDriver:
         
         pass
 
-    def _search_events(self, room_id=None):
+    def _search_events(self, room_id:string):
         """
         args=(room_id)
         """
-        try:
-            events = Event.query.filter(calendar_id=room_id)
-            return events
-        except Exception as e:
-            print(e)
+
+        events = Event.query.filter(calendar_id=room_id).all()
+        return events
+
+
 
     def _delete_event(self, **args):
         """

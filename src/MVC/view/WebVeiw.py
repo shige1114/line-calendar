@@ -13,18 +13,19 @@ def index():
 def login():
 
     pass
-@WebView.route('/event_view', methods=['GET'])
+@WebView.route('/event_view', methods=['POST'])
 def event_view():
-    print(request.json["room_id"])
-    try:
-        model = MySqlDriver()
-        calendar=model._get_calendar(id=request.json["room_id"])
-        events = model._serch_event(request.json["room_id"])
-        
-        data = {"calendar":calendar,"events":events}
-        return jsonify(data)
-    except Exception as e:
-        return jsonify("error","error")
+    
+
+    model = MySqlDriver()
+    room_id = str(request.json["room_id"])
+    calendar=model._get_calendar(id=room_id)
+    events = model._search_events(room_id)
+    
+    data = {"calendar":calendar,"events":events}
+    return jsonify(data),200
+    
+
 
     pass
 @WebView.route('/user', methods=['POST'])
