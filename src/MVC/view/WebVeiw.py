@@ -15,6 +15,7 @@ def login():
     pass
 @WebView.route('/event_view', methods=['GET'])
 def event_view():
+    print(request.json["room_id"])
     try:
         model = MySqlDriver()
         calendar=model._get_calendar(id=request.json["room_id"])
@@ -23,7 +24,7 @@ def event_view():
         data = {"calendar":calendar,"events":events}
         return jsonify(data)
     except Exception as e:
-        return jsonify({"error",e})
+        return jsonify("error","error")
 
     pass
 @WebView.route('/user', methods=['POST'])
