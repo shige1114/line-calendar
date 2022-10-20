@@ -14,7 +14,7 @@ class View:
         return "何月に遊びますか？"
         pass
 
-    def _decide_priod_massage(self, message=""):
+    def _decide_deadline_massage(self, message=""):
         return "投票期間を決めてください！"
         pass
 
