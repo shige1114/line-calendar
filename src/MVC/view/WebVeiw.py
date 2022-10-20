@@ -23,10 +23,7 @@ def event_view():
     events = model._search_events(room_id)
     
     data = {"calendar":calendar,"events":events}
-    return jsonify(data),200
-    
-
-
+    return jsonify(data)
     pass
 @WebView.route('/user', methods=['POST'])
 def user_register():

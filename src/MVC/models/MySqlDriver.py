@@ -110,7 +110,7 @@ class MySqlDriver:
         args=(room_id)
         """
 
-        events = Event.query.filter(calendar_id=room_id).all()
+        events = Event.query.filter(room_id).all()
         return events
 
 
