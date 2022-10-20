@@ -22,9 +22,8 @@ class View:
         return "名前を決めてください！"
 
     def _sent_url_massage(self, message=""):
-        return """
-        イベント候補を登録してください！
-        https://gesh-calendar-1114.vercel.app/event_view?room_id={}
+        return """イベント候補を登録してください！
+https://gesh-calendar-1114.vercel.app/event_view?room_id={}
         """.format(self.controller.room_id)
         pass
 

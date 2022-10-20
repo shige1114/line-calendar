@@ -1,3 +1,4 @@
+from asyncio import events
 from calendar import month
 from datetime import datetime, timedelta
 from unicodedata import name
@@ -103,6 +104,13 @@ class MySqlDriver:
         
         pass
 
+    def _search_events(self, room_id=None):
+        try:
+            events = Event.query.filter(calendar_id=room_id)
+            return events
+        except Exception as e:
+            print(e)
+
     def _delete_event(self, **args):
         """
         
@@ -124,6 +132,19 @@ class MySqlDriver:
             db.session.commit()
         db.session.close()
         pass
+    def _get_user(self, **args):
+        """
+        room_id
+        user.name
+        """
+        try:
+            id = args["room_id"]+":"+args["name"]
+            user = User.query.get(id)
+            return user
+        except Exception as e :
+            print(e)
+
+
 
     def _register_user(self, **args):
         """

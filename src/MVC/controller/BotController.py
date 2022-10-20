@@ -20,6 +20,7 @@ class BotController:
             self.line_bot_api = line_bot_api
             self.event = event
             self.room_id = event.source.group_id
+            self.name = event.source.name
 
             self.models = MySqlDriver(line_bot_api, self.room_id)
             self.view = View(self)
