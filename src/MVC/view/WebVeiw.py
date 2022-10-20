@@ -23,7 +23,7 @@ def event_view():
         data = {"calendar":calendar,"events":events}
         return jsonify(data)
     except Exception as e:
-        print(e)
+        return jsonify({"error",e})
 
     pass
 @WebView.route('/user', methods=['POST'])
