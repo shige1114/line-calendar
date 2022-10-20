@@ -1,48 +1,10 @@
-from flask import Flask
-from flask import request
-import os
-from linebot import (LineBotApi, WebhookHandler)
-from linebot.exceptions import (InvalidSignatureError)
-from linebot.models import (MessageEvent, TextMessage, TextSendMessage,)
+import requests
 
-# generate instance
-app = Flask(__name__)
 
-# get environmental value from heroku
-ACCESS_TOKEN = os.environ["ACCESS_TOKEN"]
-CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
-line_bot_api = LineBotApi(ACCESS_TOKEN)
-handler = WebhookHandler(CHANNEL_SECRET)
+url = "https://line-chat-bot-1114.herokuapp.com/webview/event_view"
+json_data = {
+	"room_id":"Cdf358fb1484640975bef1fee49ad3920"
+}
 
-# endpoint
-@app.route("/")
-def test():
-    return "<h1>It Works!</h1>"
+requests.get(url=url)
 
-# endpoint from linebot
-@app.route("/callback", methods=['POST'])
-def callback():
-        # get X-Line-Signature header value
-		signature = request.headers['X-Line-Signature']
-		
-		# get request body as text
-		body = request.get_data(as_text=True)
-		app.logger.info("Request body: " + body)
-		
-		# handle webhook body
-		try:
-			handler.handle(body, signature)
-		except InvalidSignatureError:
-			print("Invalid signature. Please check your channel access token/channel secret.")
-			
-		return 'OK'
-
-# handle message from LINE
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-		line_bot_api.reply_message(
-			event.reply_token,
-			TextSendMessage(text=event.message.text))
-
-if __name__ == "__main__":
-	app.run()

@@ -17,7 +17,7 @@ def login():
 def event_view():
     try:
         model = MySqlDriver()
-        calendar=model._search_calendar(request.json["room_id"])
+        calendar=model._get_calendar(id=request.json["room_id"])
         events = model._serch_event(request.json["room_id"])
         
         data = {"calendar":calendar,"events":events}

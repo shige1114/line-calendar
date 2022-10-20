@@ -15,7 +15,7 @@ class MySqlDriver:
         self.controller = controller
         self.room_id = room_id
         pass
-
+    
     def _create_calendar(self, **args):
         """
         args(calendar_id = room_id)
@@ -105,6 +105,9 @@ class MySqlDriver:
         pass
 
     def _search_events(self, room_id=None):
+        """
+        args=(room_id)
+        """
         try:
             events = Event.query.filter(calendar_id=room_id)
             return events
