@@ -1,11 +1,9 @@
-from asyncio import events
-from calendar import month
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import string
 from unicodedata import name
 from src.MVC.models import db
 from src.MVC.models.Model import EventCalendar, Event, User
-
 calendar_init_value = {
     'event_name': '',
     'deadline': datetime(year=2000,month=1,day=1,hour=0,minute=0,second=0),
@@ -110,7 +108,7 @@ class MySqlDriver:
         args=(room_id)
         """
 
-        events = Event.query.filter(room_id).all()
+        events = Event.query.filter(Event.calendar_id==room_id).all()
         return events
 
 
