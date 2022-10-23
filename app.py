@@ -1,6 +1,7 @@
 
 from calendar import month
 from flask import Flask, request, abort, session
+from flask_cors import CORS
 from flask_migrate import Migrate
 from src.MVC.models import db
 from src.MVC.view.WebVeiw import WebView
@@ -19,11 +20,12 @@ from src.MVC.controller.BotController import BotController
 from src.MVC.models.MySqlDriver import MySqlDriver
 from datetime import datetime
 
-app = Flask(__name__,instance_relative_config=False)
+app = Flask(__name__,instance_relative_config=True)
 app.config.from_pyfile('config.py')
 app.register_blueprint(WebView)
 db.init_app(app)
 Migrate(app,db)
+CORS(app,resources={r'/*' : {'origins':['http://localhost:3000','https://gesh-cal.vercel.app/']}})
 #環境変数取得
 MY_CHANNEL_ACCESS_TOKEN = os.environ["MY_CHANNEL_ACCESS_TOKEN"]
 MY_CHANNEL_SECRET = os.environ["MY_CHANNEL_SECRET"]

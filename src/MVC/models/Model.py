@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from email.policy import default
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, Integer
 from src.MVC.models import db
 
 
@@ -13,7 +13,7 @@ class EventCalendar(db.Model):
 
     id = db.Column(db.String(255), primary_key=True,)
     event_name = db.Column(db.String(255), nullable=True, default="")
-    deadline = db.Column(db.String(255), nullable=True,
+    deadline = db.Column(db.DateTime, nullable=True,
                          default=datetime.today())
     month = db.Column(db.Integer(), nullable=True, default=0)
     created_date = db.Column(
@@ -34,10 +34,10 @@ class EventCalendar(db.Model):
         return {
             'id': self.id,
             'event_name': self.event_name,
-            'deadline': self.deadline,
+            'deadline': self.deadline.strftime("%Y-%m-%d"),
             'month': self.month,
-            'created_date': self.created_date,
-            'updated_date': self.updated_date,
+            'created_date': self.created_date.strftime("%Y-%m-%d"),
+            'updated_date': self.updated_date.strftime("%Y-%m-%d"),
         }
 
 
@@ -56,7 +56,7 @@ class User(db.Model):
     created_date = db.Column(
         db.DateTime, nullable=False, default=datetime.today())
 
-    def __init__(self, id, name, event_calendar_id, voted_event=''):
+    def __init__(self, id='test', name='test', event_calendar_id='jfladjfa', voted_event=''):
         self.id = id
         self.name = name
         self.event_calendar_id = event_calendar_id
@@ -70,7 +70,7 @@ class User(db.Model):
             'name': self.name,
             'event_calendar_id': self.event_calendar_id,
             'voted_event': self.voted_event,
-            'created_date': self.created_date
+            'created_date': self.created_date.strftime("%Y-%m-%d")
         }
 
 
@@ -89,14 +89,16 @@ class Event(db.Model):
     end_time = db.Column(db.String(255), nullable=False,)
     created_date = db.Column(
         db.DateTime, nullable=False, default=datetime.today())
+    voted_people = db.Column(db.String(255), nullable=False,)
 
-    def __init__(self, date, name,  start_time, end_time, calendar_id, vote_num=0):
+    def __init__(self, date, name,  start_time, end_time, calendar_id, vote_num=0,voted_people=""):
         self.date = date
         self.name = name
         self.start_time = start_time
         self.end_time = end_time
         self.calendar_id = calendar_id
         self.vote_num = vote_num
+        self.voted_people = voted_people
 
     def to_dict(self):
         """to_dict
@@ -107,7 +109,8 @@ class Event(db.Model):
             'calendar_id': self.calendar_id,
             'name': self.name,
             'vote_num': self.vote_num,
-            'start_time': self.start_time,
-            'end_time': self.end_time,
-            'created_date': self.created_date
+            'voted_people':self.voted_people,
+            'start_time': "{}:{}".format(self.start_time.hour,self.start_time.minute),
+            'end_time': "{}:{}".format(self.end_time.hour,self.end_time.minute),
+            'created_date': self.created_date.strftime("%Y-%m-%d")
         }

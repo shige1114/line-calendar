@@ -2,6 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import string
 from unicodedata import name
+
+from sqlalchemy import true
 from src.MVC.models import db
 from src.MVC.models.Model import EventCalendar, Event, User
 calendar_init_value = {
@@ -80,7 +82,7 @@ class MySqlDriver:
             calendar_id = args['id']
         else:
             calendar_id = self.room_id
-        calendar = EventCalendar.query.get(calendar_id)
+        calendar = EventCalendar.query.get(EventCalendar.id==calendar_id)
         db.session.delete(calendar)
         db.session.commit()
         db.session.close()
@@ -91,16 +93,17 @@ class MySqlDriver:
         'date': 
         'calendar_id': 
         'name': 
-        'detail': 
         'start_time': 
         'end_time': 
-        'created_date': 
         """
-        event = Event(**args)
-        db.session.add(event)
-        db.session.commit()
-        db.session.close()
-        
+        try:
+            event = Event(**args)
+            db.session.add(event)
+            db.session.commit()
+            db.session.close()
+            return true
+        except Exception as e:
+            return False
         pass
 
     def _search_events(self, room_id:string):
@@ -108,7 +111,8 @@ class MySqlDriver:
         args=(room_id)
         """
 
-        events = Event.query.filter(Event.calendar_id==room_id).all()
+        events = Event.query.where(Event.calendar_id==room_id)
+        db.session.close()
         return events
 
 
@@ -124,30 +128,39 @@ class MySqlDriver:
         """
         args = (flag:boolean,id=number)
         """
-        flag = args['flag']
-        with db.session.commit():
-            event:Event = Event.query.get(args['id'])
-            if flag:
+        event_id = args['event_id']
+        user_id = args['user_id']
+        vote = args['vote']
+        with db.session.connection():
+            event:Event = Event.query.get(event_id)
+            if vote == 'up':
                 event.vote_num+=1
+                event.voted_people+="{},".format(user_id)
             else:
                 event.vote_num-=1
+                voted_people = ''
+                for people in event.voted_people.split(","):
+                    if (user_id != people):voted_people+=people+","
+                event.voted_people=voted_people
             db.session.commit()
         db.session.close()
         pass
+
     def _get_user(self, **args):
         """
-        room_id
-        user.name
-        """
-        try:
-            id = args["room_id"]+":"+args["name"]
-            user = User.query.get(id)
-            return user
-        except Exception as e :
-            print(e)
+        id
+        """    
+        user = User.query.get(args['id'])
+        db.session.close()
+        return user
+       
 
 
-
+    def _create_user(self):
+        user = User()
+        db.session.add(user)
+        db.session.commit()
+        db.session.close()
     def _register_user(self, **args):
         """
         name 

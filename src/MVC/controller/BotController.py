@@ -20,12 +20,12 @@ class BotController:
             self.line_bot_api = line_bot_api
             self.event = event
             self.room_id = event.source.group_id
-            
+            self.name = line_bot_api.get_profile(event.source.user_id)
 
             self.models = MySqlDriver(line_bot_api, self.room_id)
             self.view = View(self)
         except Exception as e:
-            print("!error message i couldnt read line_bot_api!")
+            print(e,flush=True)
 
     def _bot_controller(self, event: MessageEvent):
         message = event.message.text

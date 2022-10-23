@@ -1,5 +1,8 @@
+from statistics import mode
 from flask import Blueprint, jsonify, redirect, request, url_for
+import requests
 from src.MVC.controller.WebController import WebController
+import json
 from src.MVC.models.MySqlDriver import MySqlDriver
 
 WebView = Blueprint('webview',__name__,url_prefix='/webview')
@@ -15,16 +18,28 @@ def login():
     pass
 @WebView.route('/event_view', methods=['POST'])
 def event_view():
-    
-
     model = MySqlDriver()
     room_id = str(request.json["room_id"])
     calendar=model._get_calendar(id=room_id)
     events = model._search_events(room_id)
+    user = model._get_user(id='test')
+    data = {"calendar":calendar.to_dict(),"events":[ e.to_dict() for e in events ],'user':user.to_dict()}
     
-    data = {"calendar":calendar,"events":events}
     return jsonify(data)
+    
     pass
+@WebView.route('/event_edit',methods=['POST'])
+def event_edit():
+    model = MySqlDriver()
+    print(request.json,flush=True)
+    status=model._register_event(**request.json)
+
+    if status:
+        return jsonify({"status":"succes"})
+    else:
+        return jsonify({"status":"fail"})
+
+
 @WebView.route('/user', methods=['POST'])
 def user_register():
     try:
@@ -34,8 +49,13 @@ def user_register():
     except Exception as e:
         print(e)
     pass
+
 @WebView.route('/user', methods=['GET'])
 def user_handler():
+    model = MySqlDriver()
+    model._create_user()
+    return 200
+
     pass
 @WebView.route('/event', methods=['POST'])
 def event_register():
@@ -51,9 +71,21 @@ def event_register():
 def event_handler():
     pass
 
-@WebView.route('/event_vote')
+@WebView.route('/event_vote',methods=['POST'])
 def event_vote():
+    
+    model = MySqlDriver()
+    model._vote_event(**request.json)
+
+    return jsonify({"status":"secces"})
+
+    
+
     pass
+
+
+
+    
 
 
 
