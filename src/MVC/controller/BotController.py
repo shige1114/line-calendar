@@ -87,7 +87,7 @@ class BotController:
 
     def _sent_url(self, message=""):
 
-        self._send_message(message="https://gesh-calendar-1114.vercel.app/")
+        self._send_message(message="https://gesh-cal.vercel.app/")
         pass
 
     def _announcement_result(self, message=""):
