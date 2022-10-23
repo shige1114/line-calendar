@@ -20,7 +20,7 @@ from src.MVC.controller.BotController import BotController
 from src.MVC.models.MySqlDriver import MySqlDriver
 from datetime import datetime
 
-app = Flask(__name__,instance_relative_config=True)
+app = Flask(__name__,instance_relative_config=False)
 app.config.from_pyfile('config.py')
 app.register_blueprint(WebView)
 db.init_app(app)
