@@ -45,7 +45,7 @@ class BotController:
         
         self.models._create_calendar(calendar_id=self.room_id)
         self._send_message(
-            self.event,
+            event,
             message=self.view._select_month_masssage()
         )
         pass
@@ -53,7 +53,7 @@ class BotController:
     def _select_month(self, event):
         if self._check_month(event):
             self.models._update_calendar(
-                id=self.room_id, month=self._check_month()
+                id=self.room_id, month=self._check_month(event)
             )
             self._send_message(
                 self.event,
@@ -110,7 +110,7 @@ class BotController:
         
 
     def _check_month(self, event=""):
-        message = self.event.message.text
+        message = event.message.text
         month = None
         if '月' in message:
             month = message.split("月")
@@ -120,7 +120,7 @@ class BotController:
         pass
 
     def _check_deadline_message(self, event=""):
-        message = self.event.message.text
+        message = event.message.text
         deadline = None
         if '日' in message:
             deadline = message.split("日")
