@@ -23,7 +23,7 @@ class MySqlDriver:
         """
 
         calendar_id = args["calendar_id"]
-        if self._check_event_start(id=calendar_id):
+        if not self._check_event_start(id=calendar_id):
             calendar = EventCalendar(id=calendar_id,**calendar_init_value)
             db.session.add(calendar)
             db.session.commit()
