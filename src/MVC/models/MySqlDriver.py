@@ -44,8 +44,7 @@ class MySqlDriver:
         value = None
         if 'id' in args:
             calendar_id = args['id']
-        else:
-            calendar_id = self.room_id
+        
         calendar = self._get_calendar(id=calendar_id)
         if 'month' in args:
             name = 'month'

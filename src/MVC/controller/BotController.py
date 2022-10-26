@@ -21,15 +21,14 @@ class BotController:
             self.event = event
             self.room_id = event.source.group_id
             self.name = line_bot_api.get_profile(event.source.user_id)
-
+            self.text = event.message.text
             self.models = MySqlDriver(line_bot_api, self.room_id)
             self.view = View(self)
         except Exception as e:
-            print(e,flush=True)
+            print(e, flush=True)
 
     def _bot_controller(self, event: MessageEvent):
-        message = event.message.text
-        if "!event" == message:
+        if "!event" == self.text:
             self._start_event(event)
             pass
         elif self.models._check_event_start(id=self.room_id):
@@ -42,18 +41,18 @@ class BotController:
         pass
 
     def _start_event(self, event):
-        
+
         self.models._create_calendar(calendar_id=self.room_id)
         self._send_message(
-            event,
+            self.event,
             message=self.view._select_month_masssage()
         )
         pass
 
     def _select_month(self, event):
-        if self._check_month(event):
+        if self._check_month(self.event):
             self.models._update_calendar(
-                id=self.room_id, month=self._check_month(event)
+                id=self.room_id, month=self._check_month(self.event)
             )
             self._send_message(
                 self.event,
@@ -63,7 +62,7 @@ class BotController:
         pass
 
     def _decide_event_name(self, event):
-        
+
         self.models._update_calendar(
             id=self.room_id, event_name=self.event.message.text
         )
@@ -102,28 +101,26 @@ class BotController:
         pass
 
     def _send_message(self, event="", message=""):
-        
-            self.line_bot_api.reply_message(
-                self.event.reply_token,
-                TextSendMessage(text=message)
-            )
-        
+
+        self.line_bot_api.reply_message(
+            self.event.reply_token,
+            TextSendMessage(text=message)
+        )
 
     def _check_month(self, event=""):
-        message = event.message.text
         month = None
-        if '月' in message:
-            month = message.split("月")
+        if '月' in self.text:
+            month = self.text.split("月")
             return int(month[0])
         else:
             return month
         pass
 
     def _check_deadline_message(self, event=""):
-        message = event.message.text
+
         deadline = None
-        if '日' in message:
-            deadline = message.split("日")
+        if '日' in self.text:
+            deadline = self.text.split("日")
             return int(deadline[0])
         else:
             return deadline
