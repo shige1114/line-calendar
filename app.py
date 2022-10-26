@@ -1,5 +1,6 @@
 
 from calendar import month
+from re import T
 from flask import Flask, request, abort, session
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -44,7 +45,7 @@ def callback():
     signature = request.headers['X-Line-Signature']
 		
     # get request body as text
-    body = request.get_data(as_text=False)
+    body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
     
     # handle webhook body
