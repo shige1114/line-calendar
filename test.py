@@ -9,7 +9,7 @@ json_data = {
 	
 }
 
-result = requests.post(url=url_local,json=json_data)
-print(result.json)
+result = requests.post(url=url,json=json_data)
+print(result.json())
 
 "Cdf358fb1484640975bef1fee49ad3920"

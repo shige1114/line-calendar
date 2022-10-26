@@ -21,11 +21,13 @@ class MySqlDriver:
         """
         args(calendar_id = room_id)
         """
+
         calendar_id = args["calendar_id"]
-        calendar = EventCalendar(id=calendar_id,**calendar_init_value)
-        db.session.add(calendar)
-        db.session.commit()
-        db.session.close()
+        if self._check_event_start(id=calendar_id):
+            calendar = EventCalendar(id=calendar_id,**calendar_init_value)
+            db.session.add(calendar)
+            db.session.commit()
+            db.session.close()
         pass
 
     def _check_event_start(self, id):
@@ -48,6 +50,7 @@ class MySqlDriver:
         if 'month' in args:
             name = 'month'
             value = args['month']
+            
         elif 'deadline' in args and  calendar.month != calendar_init_value['month']:
             name = 'deadline'
             value = datetime.today()+timedelta(int(args['deadline']))
