@@ -22,8 +22,7 @@ def event_view():
     room_id = str(request.json["room_id"])
     calendar=model._get_calendar(id=room_id)
     events = model._search_events(room_id)
-    user = model._get_user(id='test')
-    data = {"calendar":calendar.to_dict(),"events":[ e.to_dict() for e in events ],'user':user.to_dict()}
+    data = {"calendar":calendar.to_dict(),"events":[ e.to_dict() for e in events ]}
     
     return jsonify(data)
     

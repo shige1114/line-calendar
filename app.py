@@ -20,12 +20,13 @@ from src.MVC.controller.BotController import BotController
 from src.MVC.models.MySqlDriver import MySqlDriver
 from datetime import datetime
 
-app = Flask(__name__,instance_relative_config=False)
+app = Flask(__name__,instance_relative_config=True)
 app.config.from_pyfile('config.py')
 app.register_blueprint(WebView)
 db.init_app(app)
 Migrate(app,db)
-CORS(app,resources={r'/*' : {'origins':['https://gesh-cal.vercel.app/']}})
+#CORS(app,resources={r'/*' : {'origins':['https://gesh-cal.vercel.app/']}})
+CORS(app)
 #環境変数取得
 MY_CHANNEL_ACCESS_TOKEN = os.environ["MY_CHANNEL_ACCESS_TOKEN"]
 MY_CHANNEL_SECRET = os.environ["MY_CHANNEL_SECRET"]
