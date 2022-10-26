@@ -50,7 +50,6 @@ class MySqlDriver:
         if 'month' in args:
             name = 'month'
             value = args['month']
-            
         elif 'deadline' in args and  calendar.month != calendar_init_value['month']:
             name = 'deadline'
             value = datetime.today()+timedelta(int(args['deadline']))

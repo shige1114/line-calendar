@@ -75,7 +75,7 @@ class BotController:
         pass
 
     def _decide_deadline(self, message=""):
-        if self._check_deadline_message(self.event):
+        if self._check_deadline_message():
             self.models._update_calendar(
                 id=self.room_id, deadline=self._check_deadline_message()
             )
@@ -102,14 +102,12 @@ class BotController:
         pass
 
     def _send_message(self, event="", message=""):
-        try:
+        
             self.line_bot_api.reply_message(
                 self.event.reply_token,
                 TextSendMessage(text=message)
             )
-        except:
-            print("error")
-        pass
+        
 
     def _check_month(self, event=""):
         message = self.event.message.text
