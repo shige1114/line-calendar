@@ -68,10 +68,8 @@ class MySqlDriver:
         """
         args(id=line_room_id)
         """
-        if 'id' in args:
-            calendar_id = args['id']
-        else:
-            calendar_id = self.room_id
+        calendar_id = args['id']
+        
 
         calendar = EventCalendar.query.get(calendar_id)
         db.session.close()
