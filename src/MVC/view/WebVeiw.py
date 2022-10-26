@@ -21,8 +21,10 @@ def event_view():
     model = MySqlDriver()
     room_id = str(request.json["room_id"])
     calendar=model._get_calendar(id=room_id)
+    if calendar:
+        calendar = calendar.to_dict()
     events = model._search_events(room_id)
-    data = {"calendar":calendar.to_dict(),"events":[ e.to_dict() for e in events ]}
+    data = {"calendar":calendar,"events":[ e.to_dict() for e in events ]}
     
     return jsonify(data)
     

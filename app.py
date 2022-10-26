@@ -20,7 +20,7 @@ from src.MVC.controller.BotController import BotController
 from src.MVC.models.MySqlDriver import MySqlDriver
 from datetime import datetime
 
-app = Flask(__name__,instance_relative_config=False)
+app = Flask(__name__,instance_relative_config=True)
 app.config.from_pyfile('config.py')
 app.register_blueprint(WebView)
 db.init_app(app)
@@ -44,7 +44,7 @@ def callback():
     signature = request.headers['X-Line-Signature']
 		
     # get request body as text
-    body = request.get_data(as_text=True)
+    body = request.get_data(as_text=False)
     app.logger.info("Request body: " + body)
     
     # handle webhook body
