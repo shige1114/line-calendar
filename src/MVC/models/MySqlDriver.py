@@ -60,10 +60,9 @@ class MySqlDriver:
             calendar.event_name = value
         
 
-        if value:
-            setattr(calendar,name,value)
-            db.session.commit()
-            db.session.close()
+        
+        db.session.commit()
+        db.session.close()
         
         return True
     pass
