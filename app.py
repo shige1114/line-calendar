@@ -26,7 +26,7 @@ app.config.from_pyfile('config.py')
 app.register_blueprint(WebView)
 db.init_app(app)
 Migrate(app,db)
-#CORS(app,resources={r'/*' : {'origins':['https://gesh-cal.vercel.app',"https://liff.line.me/1657580536-VQdodb56"]}})
+CORS(app,origins=['https://gesh-cal.vercel.app',"http://localhost:3000"])
 
 #環境変数取得
 MY_CHANNEL_ACCESS_TOKEN = os.environ["MY_CHANNEL_ACCESS_TOKEN"]
