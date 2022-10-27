@@ -1,5 +1,6 @@
 from statistics import mode
-from flask import Blueprint, jsonify, redirect, request, url_for
+from sys import flags
+from flask import Blueprint, flash, jsonify, redirect, request, url_for
 import requests
 from src.MVC.controller.WebController import WebController
 import json
@@ -19,11 +20,12 @@ def login():
 @WebView.route('/event_view', methods=['POST'])
 def event_view():
     model = MySqlDriver()
-    room_id = request.json["room_id"]
+    room_id = str(request.json["room_id"])
     calendar=model._get_calendar(id=room_id)
     if calendar:
         calendar = calendar.to_dict()
     events = model._search_events(room_id)
+    print(calendar,flush=True)
     data = {"calendar":calendar,"events":[ e.to_dict() for e in events ]}
     
     return jsonify(data)
