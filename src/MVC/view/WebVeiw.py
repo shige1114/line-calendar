@@ -20,7 +20,7 @@ def login():
 @WebView.route('/event_view', methods=['POST'])
 def event_view():
     model = MySqlDriver()
-    print(request.json,flush=True)
+    print(request,flush=True)
     room_id = str(request.json["room_id"])
     calendar=model._get_calendar(id=room_id)
     if calendar:
