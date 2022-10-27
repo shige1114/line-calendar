@@ -20,13 +20,17 @@ def login():
 @WebView.route('/event_view', methods=['POST'])
 def event_view():
     model = MySqlDriver()
+    print(request.json,flush=True)
     room_id = str(request.json["room_id"])
     calendar=model._get_calendar(id=room_id)
     if calendar:
         calendar = calendar.to_dict()
+    
     events = model._search_events(room_id)
+    if events:
+        events = [ e.to_dict() for e in events ]
     print(calendar,flush=True)
-    data = {"calendar":calendar,"events":[ e.to_dict() for e in events ]}
+    data = {"calendar":calendar,"events":events}
     
     return jsonify(data)
     
