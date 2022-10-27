@@ -72,9 +72,9 @@ class MySqlDriver:
         args(id=line_room_id)
         """
         calendar_id = args['id']
-        
-
-        calendar = EventCalendar.query.get(calendar_id)
+    
+        calendar = db.session.query(EventCalendar).get(calendar_id)
+        #calendar = EventCalendar.query.get(calendar_id)
         db.session.close()
         return calendar
     
