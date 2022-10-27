@@ -34,10 +34,10 @@ class EventCalendar(db.Model):
         return {
             'id': self.id,
             'event_name': self.event_name,
-            'deadline': self.deadline.strftime("%Y-%m-%d"),
+            'deadline': self.deadline,
             'month': self.month,
-            'created_date': self.created_date.strftime("%Y-%m-%d"),
-            'updated_date': self.updated_date.strftime("%Y-%m-%d"),
+            'created_date': self.created_date,#.strftime("%Y-%m-%d"),
+            'updated_date': self.updated_date,#.strftime("%Y-%m-%d"),
         }
 
 
