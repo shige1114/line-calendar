@@ -38,7 +38,7 @@ class MySqlDriver:
 
     def _update_calendar(self, **args):
         """
-        args = (id=line_room_id 必須　deadline,name,month,)
+        args = (id=line_room_id 必須　deadline,event_name,month,)
         """
         name = ''
         value = None
@@ -49,12 +49,15 @@ class MySqlDriver:
         if 'month' in args:
             name = 'month'
             value = args['month']
-        elif 'deadline' in args and  calendar.month != calendar_init_value['month']:
+            calendar.month = value
+        elif 'deadline' in args :
             name = 'deadline'
             value = datetime.today()+timedelta(int(args['deadline']))
-        elif 'event_name' in args and calendar.deadline != calendar_init_value['deadline']:
+            calendar.deadline = value
+        elif 'event_name' in args:
             name = 'event_name'
             value = args['event_name']
+            calendar.event_name = value
         
 
         if value:
