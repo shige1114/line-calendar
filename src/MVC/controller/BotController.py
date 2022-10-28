@@ -109,10 +109,7 @@ class BotController:
                 TextSendMessage(text=message)
             )
         except(Exception):
-            self.line_bot_api.push_message(
-                self.room_id,
-                TextMessage(text=message)
-            )
+            print(Exception)
 
     def _check_month(self, event=""):
         month = None
