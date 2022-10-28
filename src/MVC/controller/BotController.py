@@ -27,7 +27,8 @@ class BotController:
         except Exception as e:
             print(e, flush=True)
 
-    def _bot_controller(self, event: MessageEvent):
+    def _bot_controller(self, ):
+        event = self.event
         if "!event" == self.text:
             self._start_event(event)
             pass
