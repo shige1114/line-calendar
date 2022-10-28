@@ -81,7 +81,7 @@ def event_handler():
 
 @WebView.route('/event_vote',methods=['POST'])
 def event_vote():
-    
+    print(request.json,flush=True) 
     model = MySqlDriver()
     model._vote_event(**request.json)
 
