@@ -64,14 +64,14 @@ class BotController:
         pass
 
     def _decide_event_name(self, event):
-
-        self.models._update_calendar(
-            id=self.room_id, event_name=self.event.message.text
-        )
-        self._send_message(
-            self.event,
-            self.view._sent_url_massage()
-        )
+        if not (self._check_deadline_message(self.event) or self._check_month(self.event)):
+            self.models._update_calendar(
+                id=self.room_id, event_name=self.event.message.text
+            )
+            self._send_message(
+                self.event,
+                self.view._sent_url_massage()
+            )
 
         pass
 
