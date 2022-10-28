@@ -65,7 +65,7 @@ class MySqlDriver:
         
 
         print(calendar.to_dict(),flush=True)
-        db.session.commit()
+        db.session.commit(calendar)
         db.session.close()
         
         return True
