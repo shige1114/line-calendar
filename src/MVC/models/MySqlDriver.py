@@ -134,7 +134,7 @@ class MySqlDriver:
         args = (flag:boolean,id=number)
         """
         event_id = args['event_id']
-        user_id = args['name']
+        user_id = args['user_id']
         vote = args['vote']
         with db.session.connection():
             event:Event = Event.query.get(event_id)
