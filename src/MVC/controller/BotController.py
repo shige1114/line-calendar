@@ -1,4 +1,5 @@
 
+from shutil import ExecError
 from linebot.exceptions import (
     InvalidSignatureError,
 )
@@ -102,11 +103,16 @@ class BotController:
         pass
 
     def _send_message(self, event="", message=""):
-
-        self.line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=message)
-        )
+        try:
+            self.line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=message)
+            )
+        except(Exception):
+            self.line_bot_api.push_message(
+                self.room_id,
+                TextMessage(text=message)
+            )
 
     def _check_month(self, event=""):
         month = None
