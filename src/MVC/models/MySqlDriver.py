@@ -46,18 +46,22 @@ class MySqlDriver:
             calendar_id = args['id']
         
         calendar = self._get_calendar(id=calendar_id)
+        print(calendar,flush=True)
         if 'month' in args:
             name = 'month'
             value = args['month']
             calendar.month = value
+            print(value,flush=True)
         elif 'deadline' in args :
             name = 'deadline'
             value = datetime.today()+timedelta(int(args['deadline']))
             calendar.deadline = value
+            print(value,flush=True)
         elif 'event_name' in args:
             name = 'event_name'
             value = args['event_name']
             calendar.event_name = value
+            print(value,flush=True)
         
 
         
