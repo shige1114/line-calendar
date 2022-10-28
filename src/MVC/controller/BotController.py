@@ -104,7 +104,7 @@ class BotController:
     def _send_message(self, event="", message=""):
 
         self.line_bot_api.reply_message(
-            self.event.reply_token,
+            event.reply_token,
             TextSendMessage(text=message)
         )
 
