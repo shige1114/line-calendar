@@ -102,14 +102,13 @@ class MySqlDriver:
         'start_time': 
         'end_time': 
         """
-        try:
-            event = Event(**args)
-            db.session.add(event)
-            db.session.commit()
-            db.session.close()
-            return true
-        except Exception as e:
-            return False
+
+        event = Event(**args)
+        db.session.add(event)
+        db.session.commit()
+        db.session.close()
+        return true
+        
         pass
 
     def _search_events(self, room_id:string):
