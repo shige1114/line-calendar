@@ -147,6 +147,7 @@ class MySqlDriver:
                 for people in event.voted_people.split(","):
                     if (user_id != people):voted_people+=people+","
                 event.voted_people=voted_people
+            db.session.add(event)
             db.session.commit()
         db.session.close()
         pass
