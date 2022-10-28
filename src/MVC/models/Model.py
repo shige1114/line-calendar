@@ -110,7 +110,7 @@ class Event(db.Model):
             'name': self.name,
             'vote_num': self.vote_num,
             'voted_people':self.voted_people,
-            'start_time': "{}:{}".format(self.start_time.hour,self.start_time.minute),
-            'end_time': "{}:{}".format(self.end_time.hour,self.end_time.minute),
-            'created_date': self.created_date.strftime("%Y-%m-%d")
+            'start_time': self.start_time,#"{}:{}".format(self.start_time.hour,self.start_time.minute),
+            'end_time': self.end_time,#"{}:{}".format(self.end_time.hour,self.end_time.minute),
+            'created_date': self.created_date#.strftime("%Y-%m-%d")
         }
