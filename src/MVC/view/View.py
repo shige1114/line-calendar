@@ -28,7 +28,7 @@ https://liff.line.me/1657580536-VQdodb56
         pass
 
     def _inform_vote_result(self, events=[]):
-        text = "結果発表！！！\n"
+        text = "結果発表！！！"
 
         for i, event in enumerate(events):
             text += self._create_vote_result(i,event)
@@ -38,8 +38,8 @@ https://liff.line.me/1657580536-VQdodb56
         pass
     def _create_vote_result(self,index,event:Event):
         
-        text = "・{}\n日:{}間:{}~{}\n参加者:{}".format(
-            index,
+        text = "\n・{}位\n日:{}\n時間:{}~{}\n参加者:{}".format(
+            index+1,
             event.date,
             event.start_time,
             event.end_time,
