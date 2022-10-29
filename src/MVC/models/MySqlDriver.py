@@ -138,8 +138,8 @@ class MySqlDriver:
         """
         args = (room_id = group_id)
         """
-        events = Event.query.filter(Event.calendar_id==args["room_id"]).all()
-        db.session.delete(events)
+        events = Event.query.filter(Event.calendar_id==args["room_id"]).delete()
+        db.session.execute(events)
         db.session.commit()
         db.session.close()
         
