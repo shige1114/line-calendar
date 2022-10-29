@@ -27,7 +27,7 @@ class View:
     def _sent_url_massage(self, message=""):
         return """
 https://liff.line.me/1657580536-VQdodb56
-        """.format(self.controller.room_id)
+        """.format(self.controller.group_id)
         pass
 
     def _inform_vote_result(self, events=[]):
