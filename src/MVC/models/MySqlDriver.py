@@ -2,9 +2,6 @@ from calendar import calendar
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import string
-from unicodedata import name
-from flask_sqlalchemy import desc
-from sqlalchemy import true
 from src.MVC.models import db
 from src.MVC.models.Model import EventCalendar, Event, User
 calendar_init_value = {
@@ -40,6 +37,7 @@ class MySqlDriver:
         if calendar and calendar.is_update == True:
             flag = True
         return flag
+    
 
     def _end_of_the_update_calendar(self,id):
         """
@@ -121,7 +119,7 @@ class MySqlDriver:
         db.session.add(event)
         db.session.commit()
         db.session.close()
-        return true
+        return True
         
         pass
 
