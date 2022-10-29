@@ -126,7 +126,7 @@ class BotController:
             return deadline
 
     def _inform_vote_result(self, event=""):
-        events = self.models._get_voted_event(id=self.room_id)
+        events = self.models._get_voted_event(room_id=self.room_id)
         self._send_message(
             self.event,
             self.view._inform_vote_result(events)
