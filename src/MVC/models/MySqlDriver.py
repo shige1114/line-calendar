@@ -97,13 +97,13 @@ class MySqlDriver:
         return calendar
     
     def _delete_calendar(self, **args):
-        if 'id' in args:
-            calendar_id = args['id']
+        if 'room_id' in args:
+            calendar_id = args['room_id']
         
-        calendar = EventCalendar.query.get(EventCalendar.id==calendar_id).first()
-        db.session.delete(calendar)
-        db.session.commit()
-        db.session.close()
+            calendar = self._get_calendar(calendar_id)
+            db.session.delete(calendar)
+            db.session.commit()
+            db.session.close()
 
     def _register_event(self, **args):
         """
@@ -136,8 +136,12 @@ class MySqlDriver:
 
     def _delete_event(self, **args):
         """
-        
+        args = (room_id = group_id)
         """
+        events = Event.query.filter(Event.calendar_id==args["room_id"]).all()
+        db.session.delete(events)
+        db.session.commit()
+        db.session.close()
         
         pass
 
