@@ -1,8 +1,9 @@
+from calendar import calendar
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import string
 from unicodedata import name
-
+from flask_sqlalchemy import desc
 from sqlalchemy import true
 from src.MVC.models import db
 from src.MVC.models.Model import EventCalendar, Event, User
@@ -34,8 +35,22 @@ class MySqlDriver:
         """
         (id = group_id)
         """
-        return EventCalendar.query.get(id)
+        flag = False
+        calendar = self._get_calendar(id=id)
+        if calendar and calendar.is_update == True:
+            flag = True
+        return flag
 
+    def _end_of_the_update_calendar(self,id):
+        """
+        (id = group_id)
+        """
+        calendar = self._get_calendar(id=id)
+        calendar.is_update = False
+        db.session.add(calendar)
+        db.session.commit()
+        db.session.close()
+        
     def _update_calendar(self, **args):
         """
         args = (id=line_room_id 必須　deadline,event_name,month,)
@@ -86,9 +101,8 @@ class MySqlDriver:
     def _delete_calendar(self, **args):
         if 'id' in args:
             calendar_id = args['id']
-        else:
-            calendar_id = self.room_id
-        calendar = EventCalendar.query.get(EventCalendar.id==calendar_id)
+        
+        calendar = EventCalendar.query.get(EventCalendar.id==calendar_id).first()
         db.session.delete(calendar)
         db.session.commit()
         db.session.close()
@@ -180,8 +194,17 @@ class MySqlDriver:
 
         pass
 
-    def _delete_user(self, **args):
+    def _get_voted_event(self,**args):
+
+        id = args['room_id']
+        events = Event.query.filter(Event.vote_num>0,Event.calendar_id==id).\
+            order_by(Event.vote_num.desc()).\
+            all()
+        
+        return events 
+
         pass
+    
 
 
         

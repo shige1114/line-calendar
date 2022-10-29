@@ -15,6 +15,8 @@ class EventCalendar(db.Model):
     event_name = db.Column(db.String(255), nullable=True, default="")
     deadline = db.Column(db.DateTime, nullable=True,
                          default=datetime.today())
+    is_update = db.Column(db.Boolean,nullable=True,
+                         default=True)
     month = db.Column(db.Integer(), nullable=True, default=0)
     created_date = db.Column(
         db.DateTime, nullable=False, default=datetime.today())
@@ -22,11 +24,12 @@ class EventCalendar(db.Model):
         db.DateTime, nullable=False, default=datetime.today()
     )
 
-    def __init__(self, id, event_name, deadline, month):
+    def __init__(self, id, event_name, deadline, month,is_update=True):
         self.id = id
         self.event_name = event_name
         self.deadline = deadline
         self.month = month
+        self.is_update = is_update
 
     def to_dict(self):
         """to_dict

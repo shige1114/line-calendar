@@ -33,12 +33,16 @@ class BotController:
         if "!event" == self.text:
             self._start_event(event)
             pass
+        elif "!finish" == self.text:
+            self._inform_vote_result(event)
+            pass
         elif self.models._check_event_start(id=self.room_id):
             self._select_month(event)
             self._decide_deadline(event)
             self._decide_event_name(event)
-
+        
             pass
+
 
         pass
 
@@ -72,6 +76,7 @@ class BotController:
                 self.event,
                 self.view._sent_url_massage()
             )
+            self.models._end_of_the_update_calendar(id=self.room_id)
 
         pass
 
@@ -84,15 +89,6 @@ class BotController:
                 self.event,
                 self.view._decide_event_name()
             )
-        pass
-
-    def _sent_url(self, message=""):
-
-        self._send_message(message="https://liff.line.me/1657580536-VQdodb56")
-        pass
-
-    def _announcement_result(self, message=""):
-
         pass
 
     def _error_message(self, event=""):
@@ -128,3 +124,12 @@ class BotController:
             return int(deadline[0])
         else:
             return deadline
+
+    def _inform_vote_result(self, event=""):
+        events = self.models._get_voted_event(id=self.room_id)
+        self._send_message(
+            self.event,
+            self.view._inform_vote_result(events)
+        )
+        self.models._delete_calendar(id=self.room_id)
+        
