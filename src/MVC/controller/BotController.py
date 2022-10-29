@@ -131,6 +131,7 @@ class BotController:
             self.event,
             self.view._inform_vote_result(events)
         )
-        self.models._delete_calendar(room_id=self.room_id)
         self.models._delete_event(room_id=self.room_id)
+        self.models._delete_calendar(room_id=self.room_id)
+        
         
