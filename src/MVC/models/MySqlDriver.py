@@ -34,7 +34,7 @@ class MySqlDriver:
         """
         flag = False
         calendar = self._get_calendar(id=id)
-        if calendar and calendar.is_update == True:
+        if calendar and calendar.is_update == 1:
             flag = True
         return flag
     
@@ -44,7 +44,7 @@ class MySqlDriver:
         (id = group_id)
         """
         calendar = self._get_calendar(id=id)
-        calendar.is_update = False
+        calendar.is_update = 0
         db.session.add(calendar)
         db.session.commit()
         db.session.close()

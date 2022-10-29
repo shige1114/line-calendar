@@ -15,8 +15,8 @@ class EventCalendar(db.Model):
     event_name = db.Column(db.String(255), nullable=True, default="")
     deadline = db.Column(db.DateTime, nullable=True,
                          default=datetime.today())
-    is_update = db.Column(db.Boolean,nullable=True,
-                         default=True)
+    is_update = db.Column(db.Integer(),nullable=True,
+                         default=1)
     month = db.Column(db.Integer(), nullable=True, default=0)
     created_date = db.Column(
         db.DateTime, nullable=False, default=datetime.today())
