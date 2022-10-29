@@ -13,21 +13,18 @@ WebView = Blueprint('webview',__name__,url_prefix='/webview')
 def index():
 
     return '<h1>k<h1>'
-@WebView.route('/login',methods=['GET'])
-def login():
 
-    pass
 @WebView.route('/event_view', methods=['POST'])
 def event_view():
     model = MySqlDriver()
     print(request.json,flush=True)
     
-    room_id = str(request.json["room_id"])
-    calendar=model._get_calendar(id=room_id)
+    group_id = str(request.json["group_id"])
+    calendar=model._get_calendar(group_id=group_id)
     if calendar:
         calendar = calendar.to_dict()
     
-    events = model._search_events(room_id)
+    events = model._search_events(group_id)
     if events:
         events = [ e.to_dict() for e in events ]
     print(calendar,flush=True)
@@ -46,38 +43,6 @@ def event_edit():
         return jsonify({"status":"succes"})
     else:
         return jsonify({"status":"fail"})
-
-
-@WebView.route('/user', methods=['POST'])
-def user_register():
-    try:
-        data = request.json
-        controller = WebController()
-        controller._register_user(data)      
-    except Exception as e:
-        print(e)
-    pass
-
-@WebView.route('/user', methods=['GET'])
-def user_handler():
-    model = MySqlDriver()
-    model._create_user()
-    return 200
-
-    pass
-@WebView.route('/event', methods=['POST'])
-def event_register():
-    try:
-        data = request.json
-        controller = WebController()
-        controller._register_event(data)      
-    except Exception as e:
-        print(e)
-    pass 
-
-@WebView.route('/event', methods=['POST'])
-def event_handler():
-    pass
 
 @WebView.route('/event_vote',methods=['POST'])
 def event_vote():

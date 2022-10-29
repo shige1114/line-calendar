@@ -3,6 +3,9 @@ from src.MVC.models.Model import (Event,EventCalendar)
 class View:
 
     def __init__(self,controller=None) -> None:
+        """
+        LINEに送る文章の作成
+        """
         self.controller = controller
         pass
 
@@ -37,7 +40,9 @@ https://liff.line.me/1657580536-VQdodb56
 
         pass
     def _create_vote_result(self,index,event:Event):
-        
+        """
+        投票結果に関するテキストの追加
+        """
         text = "\n・{}位\n日:{}\n時間:{}~{}\n参加者:{}".format(
             index+1,
             event.date,

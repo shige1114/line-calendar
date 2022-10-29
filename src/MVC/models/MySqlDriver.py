@@ -10,40 +10,47 @@ calendar_init_value = {
     'month': 0,
 }
 class MySqlDriver:
-    def __init__(self,controller="",room_id="") -> None:
+    def __init__(self,controller="",group_id="") -> None:
+        """
+        LINEのグループIDと BotControllerが必要。
+        args = (controller,group_id)
+        """
         self.controller = controller
-        self.room_id = room_id
+        self.group_id = group_id
         pass
     
     def _create_calendar(self, **args):
         """
-        args(calendar_id = room_id)
+        カレンダーの作成
+        args(calendar_id = group_id)
         """
 
         calendar_id = args["calendar_id"]
-        if not self._check_event_start(id=calendar_id):
-            calendar = EventCalendar(id=calendar_id,**calendar_init_value)
+        if not self._check_event_start(group_id=calendar_id):
+            calendar = EventCalendar(group_id=calendar_id,**calendar_init_value)
             db.session.add(calendar)
             db.session.commit()
             db.session.close()
         pass
 
-    def _check_event_start(self, id):
+    def _check_event_start(self, group_id):
         """
-        (id = group_id)
+        カレンダーの要素を変更できるかどうかの判定
+        (group_id = group_id)
         """
         flag = False
-        calendar = self._get_calendar(id=id)
+        calendar = self._get_calendar(group_id=group_id)
         if calendar and calendar.is_update == 1:
             flag = True
         return flag
     
 
-    def _end_of_the_update_calendar(self,id):
+    def _end_of_the_update_calendar(self,group_id):
         """
-        (id = group_id)
+        カレンダーの要素を変更できなくする
+        (group_id = group_id)
         """
-        calendar = self._get_calendar(id=id)
+        calendar = self._get_calendar(group_id=group_id)
         calendar.is_update = 0
         db.session.add(calendar)
         db.session.commit()
@@ -51,14 +58,15 @@ class MySqlDriver:
         
     def _update_calendar(self, **args):
         """
-        args = (id=line_room_id 必須　deadline,event_name,month,)
+        カレンダーの要素の変更
+        args = (group_id=line_room_id 必須　deadline,event_name,month,)
         """
         name = ''
         value = None
-        if 'id' in args:
-            calendar_id = args['id']
+        if 'group_id' in args:
+            calendar_id = args['group_id']
         
-        calendar = self._get_calendar(id=calendar_id)
+        calendar = self._get_calendar(group_id=calendar_id)
         print(calendar,flush=True)
         if 'month' in args:
             name = 'month'
@@ -87,9 +95,10 @@ class MySqlDriver:
 
     def _get_calendar(self, **args):
         """
-        args(id=line_room_id)
+
+        args(group_id=line_room_id)
         """
-        calendar_id = args['id']
+        calendar_id = args['group_id']
     
         calendar = db.session.query(EventCalendar).get(calendar_id)
         #calendar = EventCalendar.query.get(calendar_id)
@@ -97,17 +106,17 @@ class MySqlDriver:
         return calendar
     
     def _delete_calendar(self, **args):
-        if 'room_id' in args:
-            calendar_id = args['room_id']
+        if 'group_id' in args:
+            calendar_id = args['group_id']
         
-            calendar = self._get_calendar(id=calendar_id)
+            calendar = self._get_calendar(group_id=calendar_id)
             db.session.delete(calendar)
             db.session.commit()
             db.session.close()
 
     def _register_event(self, **args):
         """
-        'id': 
+        'group_id': 
         'date': 
         'calendar_id': 
         'name': 
@@ -123,12 +132,13 @@ class MySqlDriver:
         
         pass
 
-    def _search_events(self, room_id:string):
+    def _search_events(self, group_id:string):
         """
-        args=(room_id)
+        グループIDと一致するイベントを入手
+        args=(group_id)
         """
 
-        events = Event.query.where(Event.calendar_id==room_id)
+        events = Event.query.where(Event.calendar_id==group_id)
         db.session.close()
         return events
 
@@ -136,9 +146,10 @@ class MySqlDriver:
 
     def _delete_event(self, **args):
         """
-        args = (room_id = group_id)
+
+        args = (group_id = group_id)
         """
-        events = Event.query.filter(Event.calendar_id==args["room_id"]).all()
+        events = Event.query.filter(Event.calendar_id==args["group_id"]).all()
         for e in events:
             db.session.delete(e)
         db.session.commit()
@@ -148,7 +159,8 @@ class MySqlDriver:
 
     def _vote_event(self, **args):
         """
-        args = (flag:boolean,id=number)
+        イベントの投票処理を行う
+        args = (flag:boolean,group_id=number)
         """
         event_id = args['event_id']
         user_id = args['user_id']
@@ -171,9 +183,9 @@ class MySqlDriver:
 
     def _get_user(self, **args):
         """
-        id
+        group_id
         """    
-        user = User.query.get(args['id'])
+        user = User.query.get(args['group_id'])
         db.session.close()
         return user
        
@@ -189,8 +201,8 @@ class MySqlDriver:
         name 
         event_calendar_id
         """
-        id= args['event_calendar_id']+':'+args['name']
-        user = User(id,**args)
+        group_id= args['event_calendar_id']+':'+args['name']
+        user = User(group_id,**args)
         db.session.add(user)
         db.session.commit()
         db.session.close
@@ -198,9 +210,12 @@ class MySqlDriver:
         pass
 
     def _get_voted_event(self,**args):
-
-        id = args['room_id']
-        events = Event.query.filter(Event.vote_num>0,Event.calendar_id==id).\
+        """
+        得票数が１以上のイベントを入手
+        args = (group_id)
+        """
+        group_id = args['group_id']
+        events = Event.query.filter(Event.vote_num>0,Event.calendar_id==group_id).\
             order_by(Event.vote_num.desc()).\
             all()
         
