@@ -100,7 +100,7 @@ class MySqlDriver:
         if 'room_id' in args:
             calendar_id = args['room_id']
         
-            calendar = self._get_calendar(calendar_id)
+            calendar = self._get_calendar(id=calendar_id)
             db.session.delete(calendar)
             db.session.commit()
             db.session.close()
