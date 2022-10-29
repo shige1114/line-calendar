@@ -24,7 +24,7 @@ class EventCalendar(db.Model):
         db.DateTime, nullable=False, default=datetime.today()
     )
 
-    def __init__(self, id, event_name, deadline, month,is_update=True):
+    def __init__(self, id, event_name, deadline, month,is_update=1):
         self.id = id
         self.event_name = event_name
         self.deadline = deadline

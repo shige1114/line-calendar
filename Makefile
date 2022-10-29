@@ -14,7 +14,8 @@ open:
 
 logs:
 	heroku logs $(OPTIONS_APP) --tail 
-
+db:
+	heroku pg:psql $(OPTIONS_APP)
 deb:
 	export MY_CHANNEL_ACCESS_TOKEN=""
 	export MY_CHANNEL_SECRET=""
