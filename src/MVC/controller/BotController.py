@@ -42,6 +42,8 @@ class BotController:
         elif "!finish" == self.text:
             self._inform_vote_result(event)
             pass
+        elif "会議したいです" == self.text:
+            self._test_bot(event)
         elif self.models._check_event_start(group_id=self.group_id):
             self._select_month(event)
             self._decide_deadline(event)
@@ -51,6 +53,12 @@ class BotController:
 
 
         pass
+    
+    def _test_bot(self,event):
+        self._send_message(
+            self.event,
+            message="わかりました"
+        )
 
     def _start_event(self, event):
         """
