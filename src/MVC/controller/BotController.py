@@ -62,7 +62,7 @@ class BotController:
 
     def _flex_bot(self, event):
         payload = {
-            "type": "flex",
+            "type": "carousel",
             "contents": {
                 "type": "carousel",
                 "contents": [
