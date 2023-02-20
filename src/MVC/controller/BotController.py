@@ -36,23 +36,27 @@ class BotController:
         入力されたテキスト処理
         """
         event = self.event
-        if "!event" == self.text:
-            self._start_event(event)
-            pass
-        elif "!finish" == self.text:
-            self._inform_vote_result(event)
-            pass
-        elif "会議したいです" == self.text:
-            self._test_bot(event)
+        try:
+            if "!event" == self.text:
+                self._start_event(event)
+                pass
+            elif "!finish" == self.text:
+                self._inform_vote_result(event)
+                pass
+            elif "会議したいです" == self.text:
+                self._test_bot(event)
 
-        elif "送信しました" == self.text:
-            self._flex_bot(event)
-        elif self.models._check_event_start(group_id=self.group_id):
-            self._select_month(event)
-            self._decide_deadline(event)
-            self._decide_event_name(event)
+            elif "送信しました" == self.text:
+                self._flex_bot(event)
+            elif self.models._check_event_start(group_id=self.group_id):
+                self._select_month(event)
+                self._decide_deadline(event)
+                self._decide_event_name(event)
 
-            pass
+                pass
+        except:
+            import traceback
+            traceback.print_exc()
 
         pass
 
