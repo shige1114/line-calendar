@@ -60,8 +60,10 @@ def event_vote():
 def get_days():
 
     model = MySqlDriver()
-
-    model._get_days(0)
+    try:
+        model._get_days(0)
+    except Exception:
+        print("model error",flush=True)
     return '<h1>1</h1>'
 
 
