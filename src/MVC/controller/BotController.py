@@ -72,7 +72,28 @@ class BotController:
                         "contents": [
                             {
                                 "type": "text",
-                                "text": "First bubble"
+                                "text": " 3 月 9 日 11:00~12:00",
+                                "size": "xl"
+                            },
+                            {
+                                "type": "text",
+                                "text": "会議予定時刻"
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "承認",
+                                    "uri": "http://linecorp.com/"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "却下",
+                                    "uri": "http://linecorp.com/"
+                                }
                             }
                         ]
                     }
@@ -85,7 +106,28 @@ class BotController:
                         "contents": [
                             {
                                 "type": "text",
-                                "text": "Second bubble"
+                                "text": " 3 月 9 日 13:00~",
+                                "size": "xl"
+                            },
+                            {
+                                "type": "text",
+                                "text": "会議予定時刻"
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "承認",
+                                    "uri": "http://linecorp.com/"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "却下",
+                                    "uri": "http://linecorp.com/"
+                                }
                             }
                         ]
                     }
