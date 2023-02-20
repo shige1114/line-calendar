@@ -231,7 +231,7 @@ class MySqlDriver:
             for time in range(2):
                 day =  Days(h,30*time,args[hour])
                 add_list.append(day)
-            h+=hour
+            h+=1
             print(h)
 
         db.session.add_all(add_list)
