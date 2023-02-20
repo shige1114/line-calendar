@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import string
 from src.MVC.models import db
-from src.MVC.models.Model import EventCalendar, Event, User
+from src.MVC.models.Model import EventCalendar, Event, User, Days
 calendar_init_value = {
     'event_name': '',
     'deadline': datetime(year=2000,month=1,day=1,hour=0,minute=0,second=0),
@@ -222,6 +222,14 @@ class MySqlDriver:
         return events 
 
         pass
+
+    def _get_days(self,args):
+        days = Days.query.all()
+        days = [d.to_dict() for d in days]
+
+        return days
+        
+
     
 
 

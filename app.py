@@ -21,7 +21,7 @@ from src.MVC.controller.BotController import BotController
 from src.MVC.models.MySqlDriver import MySqlDriver
 from datetime import datetime
 
-app = Flask(__name__,instance_relative_config=False)
+app = Flask(__name__,instance_relative_config=True)
 #CORS(app,origins=["http://localhost:3000/"])
 CORS(app)
 app.config.from_pyfile('config.py')
@@ -29,8 +29,7 @@ app.register_blueprint(WebView)
 db.init_app(app)
 Migrate(app,db)
 
-with app.app_context():
-    init_db()
+
 #環境変数取得
 MY_CHANNEL_ACCESS_TOKEN = os.environ["MY_CHANNEL_ACCESS_TOKEN"]
 MY_CHANNEL_SECRET = os.environ["MY_CHANNEL_SECRET"]

@@ -56,6 +56,15 @@ def event_vote():
 
     pass
 
+@WebView.route('/get_days',methods=['GET'])
+def get_days():
+
+    model = MySqlDriver()
+
+    model._get_days(0)
+    return '<h1>1</h1>'
+
+
 
 
     
