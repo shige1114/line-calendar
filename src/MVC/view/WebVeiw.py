@@ -67,12 +67,10 @@ def get_days():
 def register_days():
     model = MySqlDriver()
     print(request.json)
-    try:
-        days = model._register_days(request.json)
-        return jsonify(days)
-    except Exception:
-        print("model error",flush=True)
-    return '<h1>1</h1>'
+    
+    days = model._register_days(request.json)
+    return jsonify(days)
+    
 
 
     
