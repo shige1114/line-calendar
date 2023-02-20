@@ -135,7 +135,7 @@ class BotController:
             }
         }
 
-        flex_message = FlexSendMessage(contents=payload)
+        flex_message = FlexSendMessage(alt_text="this is flex",contents=payload)
         self.line_bot_api.reply_message(
             self.event.reply_token,
             flex_message
