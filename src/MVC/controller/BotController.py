@@ -7,7 +7,7 @@ from linebot import (
     LineBotApi,
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,FlexSendMessage
+    MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 )
 from src.MVC.models.Model import EventCalendar
 from src.MVC.view.View import View
@@ -23,7 +23,10 @@ class BotController:
         try:
             self.line_bot_api = line_bot_api
             self.event = event
-            self.group_id = event.source.group_id
+            try:
+                self.group_id = event.source.group_id
+            except Exception:
+                self.group_id = None
             self.name = line_bot_api.get_profile(event.source.user_id)
             self.text = event.message.text
             self.models = MySqlDriver(line_bot_api, self.group_id)
@@ -44,23 +47,71 @@ class BotController:
             pass
         elif "会議したいです" == self.text:
             self._test_bot(event)
+
+        elif "送信しました" == self.text:
+            self._flex_bot(event)
         elif self.models._check_event_start(group_id=self.group_id):
             self._select_month(event)
             self._decide_deadline(event)
             self._decide_event_name(event)
-        
+
             pass
 
-
         pass
-    
-    def _test_bot(self,event):
+
+    def _flex_bot(self, event):
+        payload = {
+            "type": "template",
+            "altText": "this is a carousel template",
+            "template": {
+                "type": "carousel",
+                "columns": [
+                    {
+                        "title": "空いている時間",
+                        "text": "3月９日 13:00~",
+                        "actions": [
+                            {
+                                "type": "message",
+                                "label": "承認",
+                                "text": "アクション 1"
+                            },
+                            {
+                                "type": "message",
+                                "label": "却下",
+                                "text": "アクション 2"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "空いている時間",
+                        "text": "3月9日09:00~",
+                        "actions": [
+                            {
+                                "type": "message",
+                                "label": "承認",
+                                "text": "アクション 1"
+                            },
+                            {
+                                "type": "message",
+                                "label": "却下",
+                                "text": "アクション 2"
+                            }
+                        ]
+                    },
+                ]
+            }
+        }
+
+        flex_message = FlexSendMessage(contents=payload)
+        self._send_message(self.event,message=flex_message)
+
+    def _test_bot(self, event):
         self._send_message(
             self.event,
             message="""
             わかりました。
             こちらが空き時間の予測結果です。
-            URL
+            https://liff.line.me/1657580536-XNyMy30d
             """
         )
 
@@ -140,7 +191,7 @@ class BotController:
                 event.reply_token,
                 TextSendMessage(text=message)
             )
-        except(Exception):
+        except (Exception):
             print(Exception)
 
     def _check_month(self, event=""):
@@ -177,5 +228,3 @@ class BotController:
         )
         self.models._delete_event(group_id=self.group_id)
         self.models._delete_calendar(group_id=self.group_id)
-        
-        
