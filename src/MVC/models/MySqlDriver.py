@@ -226,6 +226,7 @@ class MySqlDriver:
         h = 9
         add_list = []
         args = args['data']
+        print(args,flush=True)
         for hour in range(len(args)):
             for time in range(2):
                 day =  Days(h,30*time,args[hour])
