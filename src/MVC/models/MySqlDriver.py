@@ -222,7 +222,7 @@ class MySqlDriver:
         return events 
 
         pass
-    def _register_days(self,**args):
+    def _register_days(self,args):
         h = 9
         add_list = []
         args = args['data']
