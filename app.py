@@ -4,7 +4,7 @@ from re import T
 from flask import Flask, request, abort, session
 from flask_cors import CORS
 from flask_migrate import Migrate
-from src.MVC.models import db
+from src.MVC.models import db,init_db
 from src.MVC.view.WebVeiw import WebView
 from linebot import (
     LineBotApi, WebhookHandler
@@ -29,7 +29,8 @@ app.register_blueprint(WebView)
 db.init_app(app)
 Migrate(app,db)
 
-
+with app.app_context():
+    init_db()
 #環境変数取得
 MY_CHANNEL_ACCESS_TOKEN = os.environ["MY_CHANNEL_ACCESS_TOKEN"]
 MY_CHANNEL_SECRET = os.environ["MY_CHANNEL_SECRET"]
