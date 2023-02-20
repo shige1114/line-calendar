@@ -61,10 +61,10 @@ class BotController:
 
     def _flex_bot(self, event):
         payload = {
-  "type": "carousel",
+  "type": "flex",
   "contents": [
     {
-      "type": "flex",
+      "type": "bubble",
       "body": {
         "type": "box",
         "layout": "vertical",
@@ -98,7 +98,7 @@ class BotController:
       }
     },
     {
-      "type": "flex",
+      "type": "bubble",
       "body": {
         "type": "box",
         "layout": "vertical",
