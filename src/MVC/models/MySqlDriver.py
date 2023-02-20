@@ -226,11 +226,13 @@ class MySqlDriver:
         h = 9
         add_list = []
         args = args['data']
+        i = 0
         print(args,flush=True)
-        for hour in range(len(args)):
+        for hour in range(len(args)//2):
             for time in range(2):
-                day =  Days(h,30*time,args[hour])
+                day =  Days(h,30*time,args[i])
                 add_list.append(day)
+                i+=1
             h+=1
             print(h)
 
