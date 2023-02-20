@@ -232,6 +232,7 @@ class MySqlDriver:
                 day =  Days(h,30*time,args[hour])
                 add_list.append(day)
             h+=hour
+            print(h)
 
         db.session.add_all(add_list)
         db.session.commit()
