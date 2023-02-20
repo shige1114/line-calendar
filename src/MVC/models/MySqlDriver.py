@@ -222,6 +222,21 @@ class MySqlDriver:
         return events 
 
         pass
+    def _register_days(self,**args):
+        h = 9
+        add_list = []
+        args = args['data']
+        for hour in range(len(args)):
+            for time in range(2):
+                day =  Days(h,30*time,args[hour])
+                add_list.append(day)
+            h+=hour
+
+        db.session.add_all(add_list)
+        db.session.commit()
+        db.session.close()
+
+
 
     def _get_days(self,args):
         days = Days.query.all()

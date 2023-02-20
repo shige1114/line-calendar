@@ -51,22 +51,28 @@ def event_vote():
     model._vote_event(**request.json)
 
     return jsonify({"status":"secces"})
-
-    
-
     pass
 
-@WebView.route('/get_days',methods=['GET'])
+@WebView.route('/get_days',methods=['POST'])
 def get_days():
-
     model = MySqlDriver()
     try:
-        model._get_days(0)
+        days = model._get_days(0)
+        return jsonify(days)
     except Exception:
         print("model error",flush=True)
     return '<h1>1</h1>'
 
-
+@WebView.route('/register_days',methods=['POST'])
+def get_days():
+    model = MySqlDriver()
+    print(request.json)
+    try:
+        days = model._register_days(request.json)
+        return jsonify(days)
+    except Exception:
+        print("model error",flush=True)
+    return '<h1>1</h1>'
 
 
     
