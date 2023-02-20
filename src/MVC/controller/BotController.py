@@ -20,19 +20,17 @@ class BotController:
         LineBotApi
         event
         """
+        self.line_bot_api = line_bot_api
+        self.event = event
         try:
-            self.line_bot_api = line_bot_api
-            self.event = event
-            try:
-                self.group_id = event.source.group_id
-            except Exception:
-                self.group_id = None
-            self.name = line_bot_api.get_profile(event.source.user_id)
-            self.text = event.message.text
-            self.models = MySqlDriver(line_bot_api, self.group_id)
-            self.view = View(self)
-        except Exception as e:
-            print(e, flush=True)
+            self.group_id = event.source.group_id
+        except Exception:
+            self.group_id = None
+        self.name = line_bot_api.get_profile(event.source.user_id)
+        self.text = event.message.text
+        self.models = MySqlDriver(line_bot_api, self.group_id)
+        self.view = View(self)
+
 
     def _bot_controller(self, ):
         """
