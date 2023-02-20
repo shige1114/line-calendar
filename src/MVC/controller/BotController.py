@@ -31,7 +31,6 @@ class BotController:
         self.models = MySqlDriver(line_bot_api, self.group_id)
         self.view = View(self)
 
-
     def _bot_controller(self, ):
         """
         入力されたテキスト処理
@@ -59,85 +58,88 @@ class BotController:
 
     def _flex_bot(self, event):
         payload = {
-  "type": "flex",
-  "altText":"this is flex",
-  "contents": [
-    {
-      "type": "bubble",
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": " 3 月 9 日 11:00~12:00",
-            "size": "xl"
-          },
-          {
-            "type": "text",
-            "text": "会議予定時刻"
-          },
-          {
-            "type": "button",
-            "action": {
-              "type": "uri",
-              "label": "承認",
-              "uri": "http://linecorp.com/"
+            "type": "flex",
+            "altText": "this is flex",
+            "contents": {
+                "type": "carousel",
+                "contents": [
+                    {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": " 3 月 9 日 11:00~12:00",
+                                    "size": "xl"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "会議予定時刻"
+                                },
+                                {
+                                    "type": "button",
+                                    "action": {
+                                        "type": "uri",
+                                        "label": "承認",
+                                        "uri": "http://linecorp.com/"
+                                    }
+                                },
+                                {
+                                    "type": "button",
+                                    "action": {
+                                        "type": "uri",
+                                        "label": "却下",
+                                        "uri": "http://linecorp.com/"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": " 3 月 9 日 13:00~",
+                                    "size": "xl"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "会議予定時刻"
+                                },
+                                {
+                                    "type": "button",
+                                    "action": {
+                                        "type": "uri",
+                                        "label": "承認",
+                                        "uri": "http://linecorp.com/"
+                                    }
+                                },
+                                {
+                                    "type": "button",
+                                    "action": {
+                                        "type": "uri",
+                                        "label": "却下",
+                                        "uri": "http://linecorp.com/"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
             }
-          },
-          {
-            "type": "button",
-            "action": {
-              "type": "uri",
-              "label": "却下",
-              "uri": "http://linecorp.com/"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "bubble",
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": " 3 月 9 日 13:00~",
-            "size": "xl"
-          },
-          {
-            "type": "text",
-            "text": "会議予定時刻"
-          },
-          {
-            "type": "button",
-            "action": {
-              "type": "uri",
-              "label": "承認",
-              "uri": "http://linecorp.com/"
-            }
-          },
-          {
-            "type": "button",
-            "action": {
-              "type": "uri",
-              "label": "却下",
-              "uri": "http://linecorp.com/"
-            }
-          }
-        ]
-      }
-    }
-  ]
-}
+        }
 
         flex_message = FlexSendMessage(contents=payload)
         self.line_bot_api.reply_message(
-                self.event.reply_token,
-                flex_message
-            )
+            self.event.reply_token,
+            flex_message
+        )
 
     def _test_bot(self, event):
         self._send_message(
