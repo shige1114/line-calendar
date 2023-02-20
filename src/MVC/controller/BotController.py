@@ -108,10 +108,10 @@ class BotController:
     def _test_bot(self, event):
         self._send_message(
             self.event,
-            message="""
-            わかりました。
-            こちらが空き時間の予測結果です。
-            https://liff.line.me/1657580536-XNyMy30d
+            message="""わかりました。
+会議に最適な時間を予測します。
+こちらが空き時間の予測結果です。
+https://liff.line.me/1657580536-XNyMy30d
             """
         )
 
