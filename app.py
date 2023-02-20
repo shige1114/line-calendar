@@ -21,7 +21,7 @@ from src.MVC.controller.BotController import BotController
 from src.MVC.models.MySqlDriver import MySqlDriver
 from datetime import datetime
 
-app = Flask(__name__,instance_relative_config=True)
+app = Flask(__name__,instance_relative_config=False)
 #CORS(app,origins=["http://localhost:3000/"])
 CORS(app)
 app.config.from_pyfile('config.py')
