@@ -64,7 +64,7 @@ def get_days():
     return '<h1>1</h1>'
 
 @WebView.route('/register_days',methods=['POST'])
-def get_days():
+def register_days():
     model = MySqlDriver()
     print(request.json)
     try:
