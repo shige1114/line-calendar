@@ -61,46 +61,78 @@ class BotController:
 
     def _flex_bot(self, event):
         payload = {
-            "type": "template",
-            "altText": "this is a carousel template",
-            "template": {
-                "type": "carousel",
-                "columns": [
-                    {
-                        "title": "空いている時間",
-                        "text": "3月９日 13:00~",
-                        "actions": [
-                            {
-                                "type": "message",
-                                "label": "承認",
-                                "text": "アクション 1"
-                            },
-                            {
-                                "type": "message",
-                                "label": "却下",
-                                "text": "アクション 2"
-                            }
-                        ]
-                    },
-                    {
-                        "title": "空いている時間",
-                        "text": "3月9日09:00~",
-                        "actions": [
-                            {
-                                "type": "message",
-                                "label": "承認",
-                                "text": "アクション 1"
-                            },
-                            {
-                                "type": "message",
-                                "label": "却下",
-                                "text": "アクション 2"
-                            }
-                        ]
-                    },
-                ]
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": " 3 月 9 日 11:00~12:00",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "会議予定時刻"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "承認",
+              "uri": "http://linecorp.com/"
             }
-        }
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "却下",
+              "uri": "http://linecorp.com/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": " 3 月 9 日 13:00~",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "会議予定時刻"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "承認",
+              "uri": "http://linecorp.com/"
+            }
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "却下",
+              "uri": "http://linecorp.com/"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
 
         flex_message = FlexSendMessage(contents=payload)
         self._send_message(self.event,message=flex_message)
