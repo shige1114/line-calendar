@@ -64,7 +64,7 @@ class BotController:
   "type": "carousel",
   "contents": [
     {
-      "type": "bubble",
+      "type": "flex",
       "body": {
         "type": "box",
         "layout": "vertical",
@@ -98,7 +98,7 @@ class BotController:
       }
     },
     {
-      "type": "bubble",
+      "type": "flex",
       "body": {
         "type": "box",
         "layout": "vertical",
