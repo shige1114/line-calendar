@@ -134,7 +134,10 @@ class BotController:
 }
 
         flex_message = FlexSendMessage(contents=payload)
-        self._send_message(self.event,message=flex_message)
+        self.line_bot_api.reply_message(
+                self.event.reply_token,
+                flex_message
+            )
 
     def _test_bot(self, event):
         self._send_message(
