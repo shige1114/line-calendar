@@ -3,7 +3,8 @@ OPTIONS_APP=--app line-chat-bot-1114
 
 stop:
 	heroku ps:scale web=0 --app $(APP)
-
+cli:
+	heroku run python $(OPTIONS_APP)
 app:
 	heroku ps --app $(APP)
 
@@ -16,6 +17,8 @@ logs:
 	heroku logs $(OPTIONS_APP) --tail 
 db:
 	heroku pg:psql $(OPTIONS_APP)
+config:
+	heroku config $(OPTIONS_APP)
 deb:
 	export MY_CHANNEL_ACCESS_TOKEN=""
 	export MY_CHANNEL_SECRET=""

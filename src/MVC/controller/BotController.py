@@ -7,7 +7,7 @@ from linebot import (
     LineBotApi,
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage,FlexSendMessage
 )
 from src.MVC.models.Model import EventCalendar
 from src.MVC.view.View import View
@@ -57,7 +57,11 @@ class BotController:
     def _test_bot(self,event):
         self._send_message(
             self.event,
-            message="わかりました"
+            message="""
+            わかりました。
+            こちらが空き時間の予測結果です。
+            URL
+            """
         )
 
     def _start_event(self, event):

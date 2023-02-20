@@ -117,3 +117,25 @@ class Event(db.Model):
             'end_time': self.end_time,#"{}:{}".format(self.end_time.hour,self.end_time.minute),
             'created_date': self.created_date#.strftime("%Y-%m-%d")
         }
+
+class Days(db.Model):
+    __tablename__ = 'day'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    hour =db.Column(db.Integer, nullable=False,) 
+    minites = db.Column(db.Integer, nullable=False,)
+    day_class = db.Column(db.Integer, nullable=False,)
+
+    def __init__(self,hour,minites,day_class) -> None:
+        super().__init__()
+
+        self.hour = hour      
+        self.minites = minites
+        self.day_class = day_class
+
+    def to_dict(self):
+
+        return {
+            "hour":self.hour,
+            "minites":self.minites,
+            "day_class":self.day_class
+        }

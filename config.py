@@ -6,4 +6,4 @@ STRIPE_API_KEY = ''
 
 SQLALCHEMY_DATABASE_URI = "postgresql:"+":".join(os.environ["DATABASE_URL"].split(':')[1:])
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-SQLALCHEMY_ECHO = False
+SQLALCHEMY_ECHO = True
